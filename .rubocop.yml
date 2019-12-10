@@ -1,0 +1,37 @@
+AllCops:
+  Exclude:
+    - node_modules/**/*
+    - bin/update
+    - bin/rake
+    - bin/setup
+    - bin/yarn
+    - bin/spring
+    - bin/rails
+    - bin/bundle
+    - db/seeds.rb
+    - db/schema.rb
+
+Metrics/LineLength:
+  Exclude:
+    - config/**/*
+
+Metrics/BlockLength:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  EnforcedStyle: never
+
+Style/TrailingCommaInArrayLiteral:
+  EnforcedStyleForMultiline: consistent_comma
+
+Style/TrailingCommaInHashLiteral:
+  EnforcedStyleForMultiline: consistent_comma
+
+Style/TrailingCommaInArguments:
+  EnforcedStyleForMultiline: consistent_comma
+
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
