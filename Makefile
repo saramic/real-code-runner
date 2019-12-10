@@ -14,3 +14,7 @@ check_tools:
 install_tools:
 	bin/install-tools
 
+.PHONY: deploy
+deploy:
+	bin/heroku-create
+

@@ -6,6 +6,12 @@
 make
 ```
 
+## Deploying
+
+```
+RUNNER_SECRET=secret_runner HEROKU_APP_NAME=stg-real-code-runner make deploy
+```
+
 ## Other
 
 This README would normally document whatever steps are necessary to get the
