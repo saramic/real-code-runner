@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+set -e
+
+git clone https://github.com/asdf-vm/asdf.git ~/.asdf || echo "asdf already installed"
+source ~/.asdf/asdf.sh
+
+asdf plugin-add ruby || echo "ruby plugin already installed"
+
+asdf plugin-update ruby
+
+asdf install
+
+gem install bundler
+
