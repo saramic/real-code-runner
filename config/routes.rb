@@ -4,5 +4,7 @@ Rails.application.routes.draw do
     resources :challenges
     resources :submissions
     resources :runs
+
+    root to: "challenges#index"
   end
 end
