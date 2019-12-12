@@ -5,6 +5,8 @@ class CreateChallenges < ActiveRecord::Migration[6.0]
       t.text :description
 
       t.timestamps
+
+      t.index ["title"], name: "index_users_on_title", unique: true
     end
   end
 end
