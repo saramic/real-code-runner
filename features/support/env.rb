@@ -58,6 +58,8 @@ end
 # See https://github.com/cucumber/cucumber-rails/blob/master/features/choose_javascript_database_strategy.feature
 Cucumber::Rails::Database.javascript_strategy = :truncation
 
+World(RSpec::Wait)
+
 $LOAD_PATH << File.join(File.dirname(__FILE__), "page_fragments")
 require "util"
 
