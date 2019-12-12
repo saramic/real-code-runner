@@ -1,6 +1,7 @@
 AllCops:
   Exclude:
     - node_modules/**/*
+    - vendor/**/*
     - bin/update
     - bin/rake
     - bin/setup
