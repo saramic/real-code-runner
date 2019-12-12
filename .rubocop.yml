@@ -14,6 +14,8 @@ AllCops:
 Metrics/LineLength:
   Exclude:
     - config/**/*
+    - lib/tasks/cucumber.rake
+    - features/support/env.rb
 
 Metrics/BlockLength:
   Enabled: false

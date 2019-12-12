@@ -6,4 +6,5 @@ source ~/.asdf/asdf.sh
 
 bundle install
 bundle exec rubocop
-bundle exec rails server
+bundle exec rspec
+bundle exec cucumber

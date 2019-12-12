@@ -36,6 +36,25 @@ group :development, :test do
   gem "byebug", platforms: %i[mri mingw x64_mingw]
 end
 
+group :test do
+  gem "cucumber-rails", require: false
+  gem "database_cleaner"
+
+  gem "rspec-example_steps"
+  gem "rspec-rails"
+  gem "rspec-wait"
+
+  gem "capybara", ">= 3.14"
+  gem "capybara-screenshot"
+  gem "selenium-webdriver"
+  gem "webdrivers", "~> 3.0"
+
+  gem "pry"
+  gem "pry-byebug"
+  gem "pry-rails"
+  gem "pry-stack_explorer"
+end
+
 group :development do
   # Access an interactive console on exception pages or by calling 'console'
   # anywhere in the code.
