@@ -24,4 +24,4 @@ Capybara.register_driver :selenium_chrome do |app|
 end
 
 Capybara.javascript_driver = :selenium_chrome
-#Capybara.app_host = "http://localhost:3000"
+# Capybara.app_host = "http://localhost:3000"

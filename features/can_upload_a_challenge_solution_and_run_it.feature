@@ -11,5 +11,12 @@ Feature: can upload a challenge, solution and run it
     Then he gets message "Challenge was successfully created."
 
     When "Michael" uploads a submission to "blog"
-      | Challenge                 | Blog            |
-      | External user identifier  | michael_abc_123 |
+      | Challenge | External user identifier |
+      | Blog      | michael_abc_123          |
+
+    Then he gets message "Submission was successfully created."
+
+    When "he" runs his submission against the challenge
+
+    Then he gets message "Run was successfully created."
+

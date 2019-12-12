@@ -2,10 +2,7 @@ module PageFragments
   module Util
     def form_fill(args = {})
       args.each do |field, value|
-        input_tag = browser
-          .find("label", text: field.to_s)
-          .find(:xpath, "./../..") # TODO: recursively expand till one is found
-          .find("SELECT,INPUT,TEXTAREA")
+        input_tag = supported_input_tag(field)
         if input_tag.tag_name == "select"
           browser.select(value, from: field.to_s)
         else
@@ -30,8 +27,8 @@ module PageFragments
         keys = key_finder.map(&:text)
         values = value_finder.map(&:text)
         key_values = values
-          .each_slice(keys.length)
-          .map { |value| keys.zip(value).to_h }
+                     .each_slice(keys.length)
+                     .map { |value| keys.zip(value).to_h }
         if key_values.length == 1
           key_values.first
         else
@@ -41,5 +38,15 @@ module PageFragments
     end
 
     # rubocop:enable Metrics/MethodLength
+
+    private
+
+    def supported_input_tag(field)
+      # TODO: recursively expand ./.. till input style field is found
+      browser
+        .find("label", text: field.to_s)
+        .find(:xpath, "./../..")
+        .find("SELECT,INPUT,TEXTAREA")
+    end
   end
 end

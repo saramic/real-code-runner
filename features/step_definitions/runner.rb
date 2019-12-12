@@ -14,7 +14,21 @@ Then("he gets message {string}") do |message|
   wait_for { page.find(".flash.flash-notice").text }.to eq message
 end
 
-When("{string} uploads a submission to {string}") do |user, challenge, table|
+When("{string} uploads a submission to {string}") do |_user, _challenge, table|
   visit new_admin_submission_path
-  table.transpose.hashes.each { |hash| focus_on(:util).form_fill(hash) }
+  table.hashes.each { |hash| focus_on(:util).form_fill(hash) }
+  focus_on(:util).form_action("Create Submission")
+  values = focus_on(:util).key_value(
+    page.find_all("dl dt"),
+    page.find_all("dl dd"),
+  )
+  @submission_id = values["ID"]
+end
+
+When("{string} runs his submission against the challenge") do |_person|
+  visit new_admin_run_path
+  focus_on(:util).form_fill(
+    Submission: @submission_id,
+  )
+  focus_on(:util).form_action("Create Run")
 end
