@@ -20,9 +20,13 @@ RAILS_MASTER_KEY=`cat config/master.key` \
 - [ ] post process an uploaded zip file for a challenge in a worker
 
 ```
+  require "zip"
+  challenge = Challenge.find("...")
+
   # deal with existing attachments? just delete them?
   challenge.helper_images = challenge.feature_files = []
   challenge.save!
+
   challenge.test_case.blob.open do |file|
     Zip::File.open(file) do |zipfiles|
       zipfiles.each do |entry|
