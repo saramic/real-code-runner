@@ -11,6 +11,10 @@ class ChallengeDashboard < Administrate::BaseDashboard
     id: Field::String.with_options(searchable: false),
     title: Field::String,
     description: Field::Text,
+    test_case: Field::ActiveStorage,
+    # ^^ for JS?? .with_options({direct_upload: true}),
+    feature_files: Field::ActiveStorage,
+    helper_images: Field::ActiveStorage,
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
   }.freeze
@@ -24,6 +28,9 @@ class ChallengeDashboard < Administrate::BaseDashboard
     id
     title
     description
+    test_case
+    feature_files
+    helper_images
     created_at
   ].freeze
 
@@ -33,6 +40,9 @@ class ChallengeDashboard < Administrate::BaseDashboard
     id
     title
     description
+    test_case
+    feature_files
+    helper_images
     created_at
     updated_at
   ].freeze
@@ -43,6 +53,9 @@ class ChallengeDashboard < Administrate::BaseDashboard
   FORM_ATTRIBUTES = %i[
     title
     description
+    test_case
+    feature_files
+    helper_images
   ].freeze
 
   # COLLECTION_FILTERS
