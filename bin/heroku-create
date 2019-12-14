@@ -40,6 +40,7 @@ echo "Updating heroku environment variables"
 # from Heroku after deployment. Otherwise the old variables will hang around in Heroku.
 heroku config:add \
   RUNNER_SECRET="$RUNNER_SECRET" \
+  RAILS_MASTER_KEY="$RAILS_MASTER_KEY" \
   > /dev/null
 
 echo "Performing heroku deployment"

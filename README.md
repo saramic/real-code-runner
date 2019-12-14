@@ -9,7 +9,10 @@ make
 ## Deploying
 
 ```
-RUNNER_SECRET=secret_runner HEROKU_APP_NAME=stg-real-code-runner make deploy
+RAILS_MASTER_KEY=`cat config/master.key` \
+  RUNNER_SECRET=secret_runner            \
+  HEROKU_APP_NAME=stg-real-code-runner   \
+  make deploy
 ```
 
 ## Todo
