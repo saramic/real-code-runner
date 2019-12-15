@@ -4,6 +4,7 @@ class GraphqlController < ApplicationController
   # but you'll have to authenticate your user separately
   # protect_from_forgery with: :null_session
 
+  # rubocop:disable Metrics/AbcSize
   # rubocop:disable Metrics/MethodLength
   def execute
     variables = ensure_hash(params[:variables])
@@ -11,7 +12,7 @@ class GraphqlController < ApplicationController
     operation_name = params[:operationName]
     context = {
       # Query context goes here, for example:
-      # current_user: current_user,
+      current_user: current_user,
     }
     result = RealCodeRunnerSchema.execute(
       query,
@@ -26,6 +27,7 @@ class GraphqlController < ApplicationController
     handle_error_in_development e
   end
 
+  # rubocop:enable Metrics/AbcSize
   # rubocop:enable Metrics/MethodLength
 
   private

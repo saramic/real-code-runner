@@ -34,6 +34,8 @@ gem "image_processing"
 gem "mini_magick"
 gem "rubyzip"
 
+gem "devise"
+
 gem "graphiql-rails", group: :development
 gem "graphql"
 

@@ -1,5 +1,23 @@
-Given("{string} is admin") do |string|
+Given("{string} is admin and logged in") do |_string|
+  @admin = User.new
+  visit new_admin_challenge_path
+  focus_on(:util).form_action("Sign up")
+  supported_input_tag_one_away(text: "Email")
+    .fill_in(with: "saramic@gmail.com")
+  supported_input_tag_one_away(text: "Password", match: :prefer_exact)
+    .fill_in(with: "password")
+  supported_input_tag_one_away(text: "Password confirmation")
+    .fill_in(with: "password")
+  focus_on(:util).form_action("Sign up")
   # pending # Write code here that turns the phrase above into concrete actions
+end
+
+def supported_input_tag_one_away(args)
+  # TODO: move into util with recursively expand ./..
+  page
+    .find("label", args)
+    .find(:xpath, "./..")
+    .find("SELECT,INPUT,TEXTAREA")
 end
 
 When("{string} uploads a challenge") do |_string, table|
