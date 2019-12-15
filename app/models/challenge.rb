@@ -18,7 +18,11 @@ class Challenge < ApplicationRecord
   def map_urls(attachments)
     attachments.map do |attachment|
       if Rails.env.production?
-        attachment.service_url
+        # attachment.service_url
+        Rails.application.routes.url_helpers.rails_blob_url(
+          attachment,
+          host: "https://stg-real-code-runner.herokuapp.com",
+        )
       else
         Rails.application.routes.url_helpers.rails_blob_url(
           attachment,
