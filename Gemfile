@@ -34,6 +34,9 @@ gem "image_processing"
 gem "mini_magick"
 gem "rubyzip"
 
+gem "graphiql-rails", group: :development
+gem "graphql"
+
 gem "aws-sdk-s3", require: false
 
 group :development, :test do
