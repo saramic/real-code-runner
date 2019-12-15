@@ -17,18 +17,18 @@ class Challenge < ApplicationRecord
 
   def map_urls(attachments)
     attachments.map do |attachment|
-      if Rails.env.production?
-        # attachment.service_url
-        Rails.application.routes.url_helpers.rails_blob_url(
+      # attachment.service_url for S3 direct
+      {
+        filename: attachment.filename.to_s,
+        url: Rails.application.routes.url_helpers.rails_blob_url(
           attachment,
-          host: "https://stg-real-code-runner.herokuapp.com",
-        )
-      else
-        Rails.application.routes.url_helpers.rails_blob_url(
-          attachment,
-          host: "http://localhost:3000",
-        )
-      end
+          host: host,
+        ),
+      }
     end
+  end
+
+  def host
+    Rails.env.production? ? "https://stg-real-code-runner.herokuapp.com" : "http://localhost:3000"
   end
 end
