@@ -35,6 +35,7 @@ gem "mini_magick"
 gem "rubyzip"
 
 gem "devise"
+gem "jwt"
 
 gem "graphiql-rails", group: :development
 gem "graphql"
