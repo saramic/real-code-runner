@@ -5,11 +5,11 @@ class Challenge < ApplicationRecord
   has_many_attached :feature_files
   has_many_attached :helper_images
 
-  def feature_files_urls
+  def feature_file_urls
     map_urls(feature_files)
   end
 
-  def helper_images_urls
+  def helper_image_urls
     map_urls(helper_images)
   end
 
