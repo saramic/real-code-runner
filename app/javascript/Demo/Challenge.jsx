@@ -8,6 +8,10 @@ const GET_CHALLENGE = gql`
     challenge(id: $id) {
       title
       description
+      features {
+        title
+        text
+      }
       featureFileUrls {
         filename
         url
@@ -32,9 +36,16 @@ export default function Challenge({ challengeId }) {
             <Link to="/demo">Home</Link>
             <h3>{`Challenge : ${data.challenge.title}`}</h3>
             <p>{data.challenge.description}</p>
+            {data.challenge.features.map(feature => (
+              <>
+                <h4>{feature.title}</h4>
+                <pre>{feature.text}</pre>
+              </>
+            ))}
             {data.challenge.featureFileUrls.map(featureFile => (
               <>
                 <h4>{featureFile.filename}</h4>
+                <pre>{featureFile.text}</pre>
               </>
             ))}
             {data.challenge.helperImageUrls.map(helperImageUrl => (
