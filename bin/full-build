@@ -5,6 +5,7 @@ set -e
 source ~/.asdf/asdf.sh
 
 bundle install
+yarn
 bundle exec rubocop
 bundle exec rspec
 bundle exec cucumber
