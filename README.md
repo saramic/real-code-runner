@@ -62,6 +62,43 @@ RAILS_MASTER_KEY=`cat config/master.key` \
   end
 ```
 
+## Contributing
+
+1. run `make` and see the limited tests pass
+1. run `rails server` and see [admin](https://localhost:3000/admin) and
+   [demo](https://localhost:3000/demo)
+1. upload a demo challenge
+  ```
+  git clone https://github.com/saramic/real-code-challenge-blog
+  cd real-code-challenge-blog
+  # export ~ 3Mb
+  git archive master --format zip --output ../real-code-challenge-blog.zip
+  # upload
+  open ..
+  open http://localhost:3000/admin/challenges/new
+  ```
+1. manually process an uploaded challenge - see post process in TODO section.
+1. confirm that you have access to credentials
+  ```
+  rails credentials:edit
+  ```
+  you will need the file `config/master.key`
+1. check out the running version on heroku
+  * https://stg-real-code-runner.herokuapp.com/admin
+  * https://stg-real-code-runner.herokuapp.com/demo
+1. do a deploy
+  ```
+  RAILS_MASTER_KEY=`cat config/master.key` \
+    RUNNER_SECRET=secret_runner            \
+    HEROKU_APP_NAME=stg-real-code-runner   \
+    make deploy
+  ```
+1. access heroku
+  * `heroku logs --tail`
+  * `heroku run rails console`
+  * `echo "puts User.all.pluck(:email)" | heroku run console --app=stg-real-code-runner --no-tty`
+1. add something to the TODO that you are working on 💥
+
 ## Other
 
 This README would normally document whatever steps are necessary to get the
