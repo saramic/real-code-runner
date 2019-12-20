@@ -97,6 +97,9 @@ RAILS_MASTER_KEY=`cat config/master.key` \
   * `heroku logs --tail`
   * `heroku run rails console`
   * `echo "puts User.all.pluck(:email)" | heroku run console --app=stg-real-code-runner --no-tty`
+1. checkout the build
+  * team https://circleci.com/team/gh/saramic
+  * signup here https://circleci.com/signup/
 1. add something to the TODO that you are working on 💥
 
 ## Other
