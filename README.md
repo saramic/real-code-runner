@@ -21,6 +21,10 @@ RAILS_MASTER_KEY=`cat config/master.key` \
 
 ## Todo
 
+- [ ] sort out bootstrap in production last time fell back to using a CDN
+  version
+  [link](https://github.com/saramic/interactive-slide-show/commit/9dc66a3069725d478c89bbf3ceeb77f1c3f039d5)
+
 - [ ] post process an uploaded zip file for a challenge in a worker
 
 ```
