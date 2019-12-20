@@ -6,6 +6,7 @@ source ~/.asdf/asdf.sh
 
 bundle install
 yarn
+yarn lint
 bundle exec rubocop
 bundle exec rspec
 bundle exec cucumber
