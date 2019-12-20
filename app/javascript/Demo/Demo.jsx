@@ -22,7 +22,6 @@ export default function Demo() {
 
         return (
           <>
-            <h1>Demo App</h1>
             <h3>Challenges</h3>
             {data.challenges.map(challenge => (
               <div key={challenge.id}>

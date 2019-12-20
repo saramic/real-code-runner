@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<% # Here we force a scrollbar to always be there
+   # This so that things don't jump around when content gets longer and a scrollbar is suddenly added
+   # (which is particularly jarring when doing searches for example)
+%>
+<html style="overflow-y: scroll">
+<head>
+  <title>RealCodeRunner</title>
+  <%= csrf_meta_tags %>
+
+  <%= yield :head %>
+</head>
+<body>
+<%= yield %>
+</body>
+</html>

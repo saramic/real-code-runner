@@ -29,7 +29,6 @@ export default function Challenge({ challengeId }) {
 
         return (
           <>
-            <h1>Demo App</h1>
             <Link to="/demo">Home</Link>
             <h3>{`Challenge : ${data.challenge.title}`}</h3>
             <p>{data.challenge.description}</p>
