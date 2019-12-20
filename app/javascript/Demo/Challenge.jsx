@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "@reach/router";
 import { Query } from "react-apollo";
 import { gql } from "apollo-boost";
+import Editor from "@monaco-editor/react";
 
 const GET_CHALLENGE = gql`
   query Challenge($id: ID!) {
@@ -39,7 +40,12 @@ export default function Challenge({ challengeId }) {
             {data.challenge.features.map(feature => (
               <>
                 <h4>{feature.title}</h4>
-                <pre>{feature.text}</pre>
+                <Editor
+                  height="40vh"
+                  language="ruby"
+                  value={feature.text}
+                  readOnly
+                />
               </>
             ))}
             {data.challenge.featureFileUrls.map(featureFile => (
