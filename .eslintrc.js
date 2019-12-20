@@ -18,9 +18,7 @@ module.exports = {
   rules: {
     "prettier/prettier": "error",
     "jest/no-large-snapshots": "error",
-    "camelcase": "off",                             // allow camelcase for variables that come from ruby APIs
-    "react/forbid-prop-types": "off",               // allow generic prop types like `object`, `array`, `any`
-    "jsx-a11y/label-has-associated-control": "off", // TODO rm (4) A form label must be associated with a control
+    "react/prop-types": "off",
   },
   settings: {
     react: {
