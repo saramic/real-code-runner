@@ -5,6 +5,8 @@ Rails.application.routes.draw do
   end
   post "/graphql", to: "graphql#execute", defaults: { format: :json }
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
+  resources :demo, only: :index
+
   namespace :admin do
     resources :users
     resources :challenges

@@ -4,7 +4,11 @@
 
 ```
 make
+rails server
 ```
+
+* http://localhost:3000/admin
+* http://localhost:3000/demo
 
 ## Deploying
 
