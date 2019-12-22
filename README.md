@@ -112,8 +112,6 @@ RAILS_MASTER_KEY=`cat config/master.key` \
 
 ## Docker
 
-still WIP as the cucumber tests don't seem to run
-
 ```
 docker-compose build
 docker-compose up
@@ -124,20 +122,21 @@ docker-compose run --rm web yarn
 
 # finally
 docker-compose exec web bundle exec cucumber
-
-# ERROR
-      No such file or directory - --product-version (Errno::ENOENT)
-      ./features/support/hooks.rb:22:in `block (2 levels) in <main>'
-      ./features/support/hooks.rb:20:in `tap'
-      ./features/support/hooks.rb:20:in `block in <main>'
 ```
 
-This fires up `web` (rails server) dependent on `database` and
-`webpack_dev_server`. `web` talks to `database` on the `back` internal
-network. `web` is also exposed on the `web` bridge accessible by other
-docker-compose as the external network `real-code-submission-blog_web`.
-This is what is being used by the docker-compose in the
-https://github.com/saramic/real-code-challenge-blog project.
+This fires up
+  - web (rails server)
+  - webpack_dev_server
+    (TODO: currently running one off `webpack` due to fingerprint issues
+    with dev server vs rails)
+  - database (postgresql)
+  - webdriver_chrome
+
+running cucumber fires up a test server on port 4000 under the `web`
+container.
+
+**Note:** there is a need for the `back` network to allow `cucumber` from
+`web` to talk to `webdriver_chrome`.
 
 **Note:** the `webpack_dev_server` container is currently running
 `webpack` as otherwise the fingerprint on packs does not match up.
