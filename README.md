@@ -23,6 +23,8 @@ RAILS_MASTER_KEY=`cat config/master.key` \
 
 - [ ] worker for processing - post process an uploaded zip file for a challenge
   in a worker
+  **Note:** this should now work! at least in developement due to the change to
+  config/environments/development.rb to `config.active_job.queue_adapter = :inline`
 
 ```
   require "zip"
