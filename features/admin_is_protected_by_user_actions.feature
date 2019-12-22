@@ -13,6 +13,7 @@ Feature: user actions to limit what you can do in admin
       | actions | action-show |
     
     # TODO: can still execute the actions!!!
+    # no you can't show the associated error or no action
     When "he" visits "/admin/users/new" directly
     Then "he" sees the header
       | text | New Users Back |
