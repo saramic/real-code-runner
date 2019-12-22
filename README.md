@@ -66,6 +66,10 @@ RAILS_MASTER_KEY=`cat config/master.key` \
   end
 ```
 
+- [ ] **MM** - dockerise a simple submission
+- [ ] **MM** - dockerise a challenge
+- [ ] **MM** - dockerise the runner build
+
 ## Contributing
 
 1. run `make` and see the limited tests pass
@@ -106,27 +110,35 @@ RAILS_MASTER_KEY=`cat config/master.key` \
   * signup here https://circleci.com/signup/
 1. add something to the TODO that you are working on 💥
 
-## Other
+## Docker
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+still WIP as the cucumber tests don't seem to run
 
-Things you may want to cover:
+```
+docker-compose build
+docker-compose up
 
-* Ruby version
+# and probably
+docker-compose run --rm web bin/rails db:create db:migrate
+docker-compose run --rm web yarn
 
-* System dependencies
+# finally
+docker-compose exec web bundle exec cucumber
 
-* Configuration
+# ERROR
+      No such file or directory - --product-version (Errno::ENOENT)
+      ./features/support/hooks.rb:22:in `block (2 levels) in <main>'
+      ./features/support/hooks.rb:20:in `tap'
+      ./features/support/hooks.rb:20:in `block in <main>'
+```
 
-* Database creation
+This fires up `web` (rails server) dependent on `database` and
+`webpack_dev_server`. `web` talks to `database` on the `back` internal
+network. `web` is also exposed on the `web` bridge accessible by other
+docker-compose as the external network `real-code-submission-blog_web`.
+This is what is being used by the docker-compose in the
+https://github.com/saramic/real-code-challenge-blog project.
 
-* Database initialization
+**Note:** the `webpack_dev_server` container is currently running
+`webpack` as otherwise the fingerprint on packs does not match up.
 
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
