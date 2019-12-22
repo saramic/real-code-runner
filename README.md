@@ -159,9 +159,15 @@ docker-compose up
 docker-compose run --rm web bin/rails db:create db:migrate
 docker-compose run --rm web yarn
 
+# and probably need to restart the web container
+docker-compose up --detach web
+
 # finally
 docker-compose exec web bundle exec cucumber
 ```
+
+**Note:** _currently after running rails_ the yarn integrity check is out :(
+should work out how to keep the integrity separate for the dockerized web.
 
 This fires up
   - web (rails server)
