@@ -86,7 +86,8 @@ RAILS_MASTER_KEY=`cat config/master.key` \
   files, metadata as part of submission, kubernetes cluster, spit output out to
   S3 bucket, other?
 - [ ] **MM** sort out issue with post processing `helper_images`
-- [ ] **MM** user management on `/admin`
+- [1/2] **MM** user management on `/admin`
+  extra things are hidden but still need to lock them down
 - [ ] **MM** login mandatory for `/demo` and bring back auth on `/graphql`
 - [ ] **MM** better describe problems based on other sites: difficulty,
   category, progress, tags

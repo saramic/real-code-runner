@@ -1,5 +1,4 @@
-Given("{string} is admin and logged in") do |_string|
-  @admin = User.new
+Given("{string} signs up and is anointed an admin") do |_string|
   visit new_admin_challenge_path
   focus_on(:util).form_action("Sign up")
   supported_input_tag_one_away(text: "Email")
@@ -9,7 +8,51 @@ Given("{string} is admin and logged in") do |_string|
   supported_input_tag_one_away(text: "Password confirmation")
     .fill_in(with: "password")
   focus_on(:util).form_action("Sign up")
-  # pending # Write code here that turns the phrase above into concrete actions
+  @admin = User.find_by(email: "saramic@gmail.com")
+  @admin.update!(
+    user_actions: {
+      "admin" => { "can_administer" => true },
+      "users" => { "can_edit" => true },
+    },
+  )
+end
+
+Given("{string} signs up and is anointed with") do |name, table|
+  visit new_admin_challenge_path
+  focus_on(:util).form_action("Sign up")
+  supported_input_tag_one_away(text: "Email")
+    .fill_in(with: "#{name}@example.com")
+  supported_input_tag_one_away(text: "Password", match: :prefer_exact)
+    .fill_in(with: "password")
+  supported_input_tag_one_away(text: "Password confirmation")
+    .fill_in(with: "password")
+  focus_on(:util).form_action("Sign up")
+  @user = User.find_by(email: "#{name.downcase}@example.com")
+  @user.update!(Hash[table.rows_hash.map { |k, v| [k, JSON.parse(v)] }])
+
+  # TODO: wait for JS to load for administrate or use
+  # `page.execute_script` to look for an event like `turbolinks:load`
+  sleep(1)
+end
+
+When("{string} visits {string} directly") do |_name, location|
+  visit location
+end
+
+When("{string} looks at {string}") do |_name, link_text|
+  page.find(".navigation a", text: link_text).click
+end
+
+Then("{string} sees the header") do |_name, table|
+  wait_for do
+    page.find(".main-content__header").text.gsub("\n", " ")
+  end.to eq table.rows_hash["text"]
+end
+
+Then("{string} only sees action types") do |_name, table|
+  wait_for do
+    page.find_all(".js-table-row td a").map { |anchor| anchor["class"] }.uniq
+  end.to eq(table.rows_hash["actions"].split)
 end
 
 def supported_input_tag_one_away(args)
@@ -28,7 +71,7 @@ When("{string} uploads a challenge") do |_string, table|
   focus_on(:util).form_action("Create Challenge")
 end
 
-Then("he gets message {string}") do |message|
+Then("{string} gets message {string}") do |_name, message|
   wait_for { page.find(".flash.flash-notice").text }.to eq message
 end
 

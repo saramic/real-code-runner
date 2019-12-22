@@ -33,6 +33,8 @@ module Admin
     # for more information
 
     def scoped_resource
+      return super.all if current_user.user_actions&.dig("users", "can_edit")
+
       super.where(id: current_user)
     end
   end

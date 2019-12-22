@@ -2,7 +2,7 @@ Feature: can upload a challenge, solution and run it
 
   @javascript
   Scenario: Michael runs a solution for a challenge
-    Given "Michael" is admin and logged in
+    Given "Michael" signs up and is anointed an admin
 
     When "Michael" uploads a challenge
       | Title | Description          |

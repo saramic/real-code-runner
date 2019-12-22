@@ -31,5 +31,13 @@ module Admin
 
     # See https://administrate-prototype.herokuapp.com/customizing_controller_actions
     # for more information
+
+    def scoped_resource
+      unless current_user.user_actions&.dig("admin", "can_administer")
+        return super.none
+      end
+
+      super.all
+    end
   end
 end

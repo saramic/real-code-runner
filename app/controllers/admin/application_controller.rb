@@ -17,5 +17,16 @@ module Admin
     # def records_per_page
     #   params[:per_page] || 20
     # end
+
+    def valid_action?(name, resource = resource_class)
+      if resource_class == User &&
+         !current_user.user_actions&.dig("users", "can_edit")
+        false
+      elsif current_user.user_actions&.dig("admin", "can_administer")
+        true
+      else
+        %w[new edit destroy].exclude?(name.to_s) && super
+      end
+    end
   end
 end

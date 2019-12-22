@@ -30,6 +30,7 @@ gem "bootsnap", ">= 1.4.2", require: false
 
 gem "administrate"
 gem "administrate-field-active_storage"
+gem "administrate-field-jsonb"
 gem "image_processing"
 gem "mini_magick"
 gem "rubyzip"
