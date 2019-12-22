@@ -19,13 +19,10 @@ RAILS_MASTER_KEY=`cat config/master.key` \
   make deploy
 ```
 
-## Todo
+## TODO
 
-- [ ] sort out bootstrap in production last time fell back to using a CDN
-  version
-  [link](https://github.com/saramic/interactive-slide-show/commit/9dc66a3069725d478c89bbf3ceeb77f1c3f039d5)
-
-- [ ] post process an uploaded zip file for a challenge in a worker
+- [ ] worker for processing - post process an uploaded zip file for a challenge
+  in a worker
 
 ```
   require "zip"
@@ -66,9 +63,46 @@ RAILS_MASTER_KEY=`cat config/master.key` \
   end
 ```
 
-- [ ] **MM** - dockerise a simple submission
-- [ ] **MM** - dockerise a challenge
-- [ ] **MM** - dockerise the runner build
+- [ ] worker for processing runs
+- [ ] fix BDD terminology in challenges
+- [ ] file upload widget using JWT
+
+**Product vision**
+- [ ] **MM** introduce the concept - text, images and video
+- [ ] **MM** how to find a challenge
+- [ ] **MM** how challenges are displayed
+- [ ] **MM** submission feedback
+- [ ] **MM** user onboarding flow - github signup, email confirmation, simple
+  get started challenge - place a form on a public webpage
+
+**Tech**
+
+- [ ] **MM** run a submission, run docker, configure between docker-compose
+  files, metadata as part of submission, kubernetes cluster, spit output out to
+  S3 bucket, other?
+- [ ] **MM** sort out issue with post processing `helper_images`
+- [ ] **MM** user management on `/admin`
+- [ ] **MM** login mandatory for `/demo` and bring back auth on `/graphql`
+- [ ] **MM** better describe problems based on other sites: difficulty,
+  category, progress, tags
+- [ ] **MM** 
+
+- [ ] **MM** - run dockerised runner build on circleCI
+      https://circleci.com/docs/2.0/browser-testing/
+
+- [ ] sort out bootstrap in production last time fell back to using a CDN
+  version
+  [link](https://github.com/saramic/interactive-slide-show/commit/9dc66a3069725d478c89bbf3ceeb77f1c3f039d5)
+
+
+## DONE
+
+- [x] **MM** - dockerise a simple submission
+- [x] **MM** - dockerise a challenge
+- [x] **MM** - dockerise the runner build
+  - influenced by [ruby on whales evilmartians
+    blog](https://evilmartians.com/chronicles/ruby-on-whales-docker-for-ruby-rails-development)
+    look at more optimisations here around `node_modules` etc.
 
 ## Contributing
 
