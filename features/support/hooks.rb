@@ -39,7 +39,7 @@ if ENV["SELENIUM_REMOTE_URL"]
   Capybara.javascript_driver = :selenium_chrome_in_container
   Capybara.server_host = "0.0.0.0"
   Capybara.server_port = 4000
-  Capybara.app_host = 'http://web:4000'
+  Capybara.app_host = "http://web:4000"
 else
   Capybara.javascript_driver = :selenium_chrome
   # Capybara.app_host = "http://localhost:3000"
