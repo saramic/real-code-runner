@@ -10,6 +10,20 @@ rails server
 * http://localhost:3000/admin
 * http://localhost:3000/demo
 
+setup a user, under `/admin` choose to **Sign up**
+
+```
+# give user admin privelages
+rake setup:admin_user[saramic@gmail.com]
+```
+
+upload an **Introduction** and **Blog** challenge and manually process the
+files
+
+```
+rake setup:process:challenges
+```
+
 ## Deploying
 
 ```
@@ -29,7 +43,10 @@ RAILS_MASTER_KEY=`cat config/master.key` \
   
   as part of commit https://github.com/saramic/real-code-runner/commit/bd55a9224d16c4a9b2564760fa0b32cdd304ea62
 
-```
+  similar to `rake setup:process:challenges` in file
+  `lib/tasks/process_challenges.rake`
+
+``` ruby
   require "zip"
   challenge = Challenge.find_by(title: "Introduction")
 
