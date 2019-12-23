@@ -94,6 +94,10 @@ RAILS_MASTER_KEY=`cat config/master.key` \
 - [ ] fix BDD terminology in challenges
 - [ ] file upload widget using JWT
 
+**Bugs**
+
+- [ ] need a readme otherwise GraphQL query fails
+
 **Product vision**
 - [ ] **MM** introduce the concept - text, images and video
 - [ ] **MM** how to find a challenge
