@@ -9,6 +9,9 @@ const GET_CHALLENGE = gql`
     challenge(id: $id) {
       title
       description
+      metadata {
+        readme
+      }
       features {
         title
         text
@@ -37,6 +40,8 @@ export default function Challenge({ challengeId }) {
             <Link to="/demo">Home</Link>
             <h3>{`Challenge : ${data.challenge.title}`}</h3>
             <p>{data.challenge.description}</p>
+            <h4>README.md</h4>
+            <pre>{data.challenge.metadata.readme}</pre>
             {data.challenge.features.map(feature => (
               <>
                 <h4>{feature.title}</h4>

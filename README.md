@@ -31,7 +31,7 @@ RAILS_MASTER_KEY=`cat config/master.key` \
 
 ```
   require "zip"
-  challenge = Challenge.find("...")
+  challenge = Challenge.find_by(title: "Introduction")
 
   # deal with existing attachments? just delete them?
   challenge.helper_images = challenge.feature_files = []
@@ -52,9 +52,14 @@ RAILS_MASTER_KEY=`cat config/master.key` \
             filename: entry.name
           )
         end
+        if entry.name =~ /README.md/
+          challenge.metadata ||= {}
+          challenge.metadata["readme"] = entry.get_input_stream.read
+        end
       end
     end
   end
+  challenge.save!
 ```
 
 - [ ] API to make image and feature file available

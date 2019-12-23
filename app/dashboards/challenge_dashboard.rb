@@ -11,6 +11,7 @@ class ChallengeDashboard < Administrate::BaseDashboard
     id: Field::String.with_options(searchable: false),
     title: Field::String,
     description: Field::Text,
+    metadata: Field::JSONB,
     test_case: Field::ActiveStorage,
     # ^^ for JS?? .with_options({direct_upload: true}),
     feature_files: Field::ActiveStorage,
@@ -40,6 +41,7 @@ class ChallengeDashboard < Administrate::BaseDashboard
     id
     title
     description
+    metadata
     test_case
     feature_files
     helper_images
@@ -53,6 +55,7 @@ class ChallengeDashboard < Administrate::BaseDashboard
   FORM_ATTRIBUTES = %i[
     title
     description
+    metadata
     test_case
     feature_files
     helper_images
