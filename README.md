@@ -127,6 +127,8 @@ RAILS_MASTER_KEY=`cat config/master.key` \
   version
   [link](https://github.com/saramic/interactive-slide-show/commit/9dc66a3069725d478c89bbf3ceeb77f1c3f039d5)
 
+- [ ] work out how to better style the markdown as per https://rexxars.github.io/react-markdown/
+- [ ] evaluate https://codemirror.net/ for code editing
 
 ## DONE
 

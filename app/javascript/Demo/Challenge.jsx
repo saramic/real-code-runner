@@ -3,6 +3,7 @@ import { Link } from "@reach/router";
 import { Query } from "react-apollo";
 import { gql } from "apollo-boost";
 import Editor from "@monaco-editor/react";
+import ReactMarkdown from "react-markdown";
 
 const GET_CHALLENGE = gql`
   query Challenge($id: ID!) {
@@ -41,7 +42,7 @@ export default function Challenge({ challengeId }) {
             <h3>{`Challenge : ${data.challenge.title}`}</h3>
             <p>{data.challenge.description}</p>
             <h4>README.md</h4>
-            <pre>{data.challenge.metadata.readme}</pre>
+            <ReactMarkdown source={data.challenge.metadata.readme} />
             {data.challenge.features.map(feature => (
               <>
                 <h4>{feature.title}</h4>
