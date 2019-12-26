@@ -5,12 +5,16 @@ import { gql } from "apollo-boost";
 import Editor from "@monaco-editor/react";
 import ReactMarkdown from "react-markdown";
 import {
+  Button,
+  FormGroup,
+  Input,
   Nav,
   NavItem,
   Dropdown,
   DropdownItem,
   DropdownToggle,
   DropdownMenu,
+  Label,
   NavLink
 } from "reactstrap";
 import classnames from "classnames";
@@ -79,12 +83,89 @@ const Readme = ({ metadata }) => (
   </>
 );
 
-const Submission = () => {
+const SubmissionUrl = () => (
+  <>
+    <FormGroup>
+      <Label>URL</Label>
+      <Input type="text" placeholder="URL of your submission" />
+    </FormGroup>
+    <Button color="primary">submit</Button>
+  </>
+);
+
+const SubmissionText = () => {
   const [submissionText] = useState("<html>\n</html>");
   return (
     <>
+      <FormGroup>
+        <Label>Text solution</Label>
+        <Editor height="40vh" language="ruby" value={submissionText} readOnly />
+      </FormGroup>
+      <Button color="primary">submit</Button>
+    </>
+  );
+};
+
+const SubmissionFile = () => (
+  <>
+    <FormGroup>
+      <Label>Upload File</Label>
+      <Input type="file" placeholder="URL of your submission" />
+    </FormGroup>
+    <Button color="primary">submit</Button>
+  </>
+);
+
+const Submission = () => {
+  return (
+    <>
       <h4>Submission</h4>
-      <Editor height="40vh" language="ruby" value={submissionText} readOnly />
+      <Nav tabs>
+        <NavItem>
+          <NavLink
+            tag={Link}
+            to=""
+            getProps={({ isCurrent }) => {
+              return {
+                className: classnames({ "nav-link": true, active: isCurrent })
+              };
+            }}
+          >
+            Url
+          </NavLink>
+        </NavItem>
+        <NavItem>
+          <NavLink
+            tag={Link}
+            to="text"
+            getProps={({ isCurrent }) => {
+              return {
+                className: classnames({ "nav-link": true, active: isCurrent })
+              };
+            }}
+          >
+            Text
+          </NavLink>
+        </NavItem>
+        <NavItem>
+          <NavLink
+            tag={Link}
+            to="file"
+            getProps={({ isCurrent }) => {
+              return {
+                className: classnames({ "nav-link": true, active: isCurrent })
+              };
+            }}
+          >
+            File
+          </NavLink>
+        </NavItem>
+      </Nav>
+      <Router>
+        <SubmissionUrl path="/" />
+        <SubmissionText path="text" />
+        <SubmissionFile path="file" />
+      </Router>
     </>
   );
 };
@@ -165,7 +246,7 @@ export default function Challenge({ challengeId }) {
               <All path="/" data={data} />
               <Readme path="readme" metadata={data.challenge.metadata} />
               <Submission
-                path="submission"
+                path="submission/*"
                 metadata={data.challenge.metadata}
               />
               <Feature path="feature/:featureId" data={data} />
