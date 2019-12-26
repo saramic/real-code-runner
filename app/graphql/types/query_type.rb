@@ -10,5 +10,9 @@ module Types
     field :challenge,
           resolver: Resolvers::Challenge,
           description: "Challenge"
+
+    field :submissions,
+          resolver: Resolvers::Submissions,
+          description: "Submissions"
   end
 end

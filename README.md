@@ -98,9 +98,12 @@ RAILS_MASTER_KEY=`cat config/master.key` \
 
 **Tech**
 
+- [ ] **MM** make submission visible based on external user identifier
+- [ ] **MM** does a user see a submission or a run? or is a run a submission? only reason to
+      hold mutli runs is to allow for flakys and re-run?
 - [ ] **MM** submit a submission (URL, text, file) via widget embedded in form
 - [ ] **MM** docker run submission and capture output ActiveJob
-- [ ] **MM** display console control characters in HTML output
+- [ ] **MM** set width of console output based on number of characters in submission output
 - [ ] **MM** run a submission, run docker, configure between docker-compose
       files, metadata as part of submission, kubernetes cluster, spit output out to
       S3 bucket, other?
@@ -125,6 +128,7 @@ RAILS_MASTER_KEY=`cat config/master.key` \
 
 ## DONE
 
+- [x] **MM** display console control characters in HTML output
 - [x] API to make image and feature file available
   ```
     challenge.feature_files.map do |feature_file|
