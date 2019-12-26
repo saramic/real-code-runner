@@ -79,17 +79,6 @@ RAILS_MASTER_KEY=`cat config/master.key` \
   challenge.save!
 ```
 
-- [ ] API to make image and feature file available
-
-```
-  challenge.feature_files.map do |feature_file|
-    Rails.application.routes.url_helpers.rails_blob_path(feature_file, only_path: true)
-  end
-  challenge.helper_images.each do |helper_image|
-    Rails.application.routes.url_helpers.rails_blob_path(helper_image, only_path: true)
-  end
-```
-
 - [ ] worker for processing runs
 - [ ] fix BDD terminology in challenges
 - [ ] file upload widget using JWT
@@ -99,6 +88,7 @@ RAILS_MASTER_KEY=`cat config/master.key` \
 - [ ] need a readme otherwise GraphQL query fails
 
 **Product vision**
+
 - [ ] **MM** introduce the concept - text, images and video
 - [ ] **MM** how to find a challenge
 - [ ] **MM** how challenges are displayed
@@ -108,6 +98,9 @@ RAILS_MASTER_KEY=`cat config/master.key` \
 
 **Tech**
 
+- [ ] **MM** submit a submission (URL, text, file) via widget embedded in form
+- [ ] **MM** docker run submission and capture output ActiveJob
+- [ ] **MM** display console control characters in HTML output
 - [ ] **MM** run a submission, run docker, configure between docker-compose
   files, metadata as part of submission, kubernetes cluster, spit output out to
   S3 bucket, other?
@@ -132,6 +125,15 @@ RAILS_MASTER_KEY=`cat config/master.key` \
 
 ## DONE
 
+- [x] API to make image and feature file available
+  ```
+    challenge.feature_files.map do |feature_file|
+      Rails.application.routes.url_helpers.rails_blob_path(feature_file, only_path: true)
+    end
+    challenge.helper_images.each do |helper_image|
+      Rails.application.routes.url_helpers.rails_blob_path(helper_image, only_path: true)
+    end
+  ```
 - [x] **MM** - dockerise a simple submission
 - [x] **MM** - dockerise a challenge
 - [x] **MM** - dockerise the runner build
