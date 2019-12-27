@@ -33,6 +33,14 @@ export default function Demo() {
     <Query query={GET_CHALLENGES}>
       {({ loading, error, data }) => {
         if (loading) return "Loading ...";
+        if (
+          error &&
+          error.networkError &&
+          error.networkError.statusCode === 401
+        )
+          window.location.assign(
+            `/users/sign_in?redirect_to=${window.location.pathname}`
+          );
         if (error) return `Error! ${error.message}`;
 
         return (

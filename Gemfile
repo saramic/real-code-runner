@@ -41,6 +41,8 @@ gem "jwt"
 gem "graphiql-rails", group: :development
 gem "graphql"
 
+gem "rack-cors", require: "rack/cors"
+
 gem "aws-sdk-s3", require: false
 
 group :development, :test do

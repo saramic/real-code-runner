@@ -55,12 +55,13 @@
 
   <script type="text/javascript">
     const me = document.currentScript;
-    fetch("http://localhost:3000/packs/manifest.json")
+    const host = "<%= URI(request.protocol + request.host_with_port) %>";
+    fetch(`${host}/packs/manifest.json`)
       .then(response => response.json())
       .then(responseJson => {
         const widget = document.createElement("SCRIPT");
         widget.type = "text/javascript";
-        widget.src = responseJson["widget_app.js"];
+        widget.src = `${host}${responseJson["widget_app.js"]}`;
         me.parentElement.appendChild(widget);
       });
   </script>
@@ -124,6 +125,7 @@
       const authToken = document.getElementById("auth-token").value;
       const body = fetchChallengesBody();
       const preElement = document.getElementById("challenges-call-result");
+      preElement.innerHTML = '...'
 
       fetchGraphql(authToken, body, preElement);
 
@@ -139,7 +141,7 @@
         type="text"
         class="form-control"
         placeholder="auth token from /admin/users"
-        value="eyJhbGciOiJIUzI1NiJ9.eyJpZCI6IjcwYWVlN2FlLWIxZDgtNDlhYS05MjVmLWVjNjE4MTRjNzBlMSIsImV4cCI6MTU4MjU5ODg0NH0.epF-Gsjem65tkLjyftFQt5iX1PHtyIHIm82rkRkO9zY"
+        value="<%= @jwt %>"
       />
     </div>
     <div>
@@ -185,6 +187,7 @@
     const authToken = document.getElementById("auth-token").value;
     const body = fetchChallengesBody();
     const preElement = document.getElementById("challenges-call-result");
+    preElement.innerHTML = '...'
 
     fetchGraphql(authToken, body, preElement);
 
@@ -240,6 +243,7 @@
       const challengeId = document.getElementById("challenge-id").value;
       const body = fetchChallengeBody(challengeId);
       const preElement = document.getElementById("challenge-call-result");
+      preElement.innerHTML = '...'
 
       fetchGraphql(authToken, body, preElement);
 
@@ -255,7 +259,7 @@
         type="text"
         class="form-control"
         placeholder="challenge id"
-        value="c8d40015-d6f4-43d0-b4b4-7d4dff795596"
+        value="<%= @challenge_id %>"
       />
     </div>
     <div>
@@ -318,6 +322,7 @@
     const challengeId = document.getElementById("challenge-id").value;
     const body = fetchChallengeBody(challengeId);
     const preElement = document.getElementById("challenge-call-result");
+    preElement.innerHTML = '...'
 
     fetchGraphql(authToken, body, preElement);
 

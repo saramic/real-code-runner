@@ -31,4 +31,14 @@ class ApplicationController < ActionController::Base
       head :unauthorized
     end
   end
+
+  def after_sign_in_path_for(resource)
+    url = URI(request.referrer)
+    if url.query
+      redirect_to_url = CGI.parse(url.query)["redirect_to"].join
+      return redirect_to_url if redirect_to_url
+    end
+
+    super
+  end
 end
