@@ -83,6 +83,41 @@ RAILS_MASTER_KEY=`cat config/master.key` \
 - [ ] fix BDD terminology in challenges
 - [ ] file upload widget using JWT
 
+**Top of mind**
+
+- [ ] what is `ActiveSupport::MessageVerifier::InvalidSignature` error
+- [ ] move the manifest finding code into a `non-cached` main.js
+- [ ] use signed keys not the actual JWT
+- [ ] change the JWT to have a known secret
+- [ ] can we just use a plain old form?
+- [ ] run a docker command from rails, look at coloring, etc
+
+```ruby
+require 'zip'
+
+challenge = Challenge.find_by(title: "Introduction")
+submission = Submission.create!(challenge: challenge, external_user_identifier: 'demo_user')
+run = Run.create(submission: submission)
+Dir.mktmpdir do |dir|
+  challenge.test_case.blob.open do |test_case|
+    Zip::File.open(test_case) do |zipfile|
+      zipfile.each do |entry|
+        filepath = File.join(dir, entry.name)
+        FileUtils.mkdir_p(File.dirname(filepath))
+        zipfile.extract(entry, filepath) unless File.exist?(filepath)
+      end
+    end
+  end
+  docker_compose_path = `find #{dir} -name docker-compose.yml`
+  raise "no docker-compose.yml file found" if docker_compose_path.empty?
+
+  filepath = File.dirname(docker_compose_path)
+  run.result ||= {}
+  run.result["output"] = `cd #{filepath} && docker-compose up &2>1`
+  run.save
+end
+```
+
 **Bugs**
 
 - [ ] need a readme otherwise GraphQL query fails

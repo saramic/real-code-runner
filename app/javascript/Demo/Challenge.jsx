@@ -55,6 +55,12 @@ const GET_PAST_SUBMISSIONS = gql`
       result {
         output
       }
+      runs {
+        id
+        result {
+          output
+        }
+      }
     }
   }
 `;
@@ -162,22 +168,48 @@ const PastSubmissions = ({ challengeId }) => {
                   isOpen={isOpen === submission.id}
                 >
                   {/* eslint-disable react/no-danger */}
-                  <tt
-                    className="p-2"
-                    style={{
-                      display: "block",
-                      color: "#ffffff",
-                      background: "#131313",
-                      minWidth: "1000px"
-                    }}
-                    dangerouslySetInnerHTML={{
-                      __html: new Convert().toHtml(
-                        submission.result.output
-                          .replace(/ {1}/gm, "&nbsp")
-                          .replace(/(\r\n|\n)/gm, "<br />")
-                      )
-                    }}
-                  />
+                  {submission.result && (
+                    <tt
+                      className="p-2"
+                      style={{
+                        display: "block",
+                        color: "#ffffff",
+                        background: "#131313",
+                        minWidth: "1000px"
+                      }}
+                      dangerouslySetInnerHTML={{
+                        __html: new Convert().toHtml(
+                          submission.result.output
+                            .replace(/ {1}/gm, "&nbsp")
+                            .replace(/(\r\n|\n)/gm, "<br />")
+                        )
+                      }}
+                    />
+                  )}
+                  {submission.runs.map(run => (
+                    <React.Fragment key={run.id}>
+                      {run.id}
+                      {/* eslint-disable react/no-danger */}
+                      {run.result && (
+                        <tt
+                          className="p-2"
+                          style={{
+                            display: "block",
+                            color: "#ffffff",
+                            background: "#131313",
+                            minWidth: "1000px"
+                          }}
+                          dangerouslySetInnerHTML={{
+                            __html: new Convert().toHtml(
+                              run.result.output
+                                .replace(/ {1}/gm, "&nbsp")
+                                .replace(/(\r\n|\n)/gm, "<br />")
+                            )
+                          }}
+                        />
+                      )}
+                    </React.Fragment>
+                  ))}
                 </Collapse>
               </div>
             ))}

@@ -11,7 +11,9 @@ module Resolvers
       ::Submission.where(
         challenge_id: challenge_id,
         external_user_identifier: external_user_identifier,
-      ).order(::Submission.arel_table[:created_at].desc)
+      )
+      .includes(:runs)
+      .order(::Submission.arel_table[:created_at].desc)
     end
   end
 end
