@@ -12,7 +12,7 @@
 <script type="text/javascript">
   function fetchGraphql(authToken, body, resultElement) {
     fetch(
-      "http://localhost:3000/graphql", {
+      "<%= URI(request.protocol + request.host_with_port) + "/graphql" %>", {
       headers: {
         "CONTENT-TYPE": "application/json",
         "AUTHORIZATION": `Token ${authToken}`,
@@ -84,7 +84,8 @@
 
 <script type="text/javascript">
   const me = document.currentScript;
-  fetch("http://localhost:3000/packs/manifest.json")
+  const host = "' + URI(request.protocol + request.host_with_port).to_s + '";
+  fetch(`${host}/packs/manifest.json`)
     .then(response => response.json())
     .then(responseJson => {
       const widget = document.createElement("SCRIPT");
@@ -363,7 +364,8 @@
 
   <script type="text/javascript">
     const me = document.currentScript;
-    fetch("http://localhost:3000/packs/manifest.json")
+    const host = "<%= URI(request.protocol + request.host_with_port) %>";
+    fetch(`${host}/packs/manifest.json`)
       .then(response => response.json())
       .then(responseJson => {
         const widget = document.createElement("SCRIPT");
@@ -390,7 +392,8 @@
 
 <script type="text/javascript">
   const me = document.currentScript;
-  fetch("http://localhost:3000/packs/manifest.json")
+  const host = "' + URI(request.protocol + request.host_with_port).to_s + '";
+  fetch(`${host}/packs/manifest.json`)
     .then(response => response.json())
     .then(responseJson => {
       const widget = document.createElement("SCRIPT");
