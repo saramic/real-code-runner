@@ -1,0 +1,413 @@
+<% content_for :head do %>
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<% end %>
+
+<div class="container">
+<div class="row">
+<div class="col">
+<script type="text/javascript">
+  function fetchGraphql(authToken, body, resultElement) {
+    fetch(
+      "http://localhost:3000/graphql", {
+      headers: {
+        "CONTENT-TYPE": "application/json",
+        "AUTHORIZATION": `Token ${authToken}`,
+      },
+      body: JSON.stringify(body),
+      method: "POST",
+    }).then(response => {
+      if (response.ok) {
+        return response;
+      } else {
+        throw new Error(`Request rejected with status ${response.status}`);
+      }
+    })
+    .then(response => response.json())
+    .then(responseJson => {
+      resultElement.innerHTML = JSON.stringify(responseJson, null, 2);
+    });
+  }
+</script>
+
+<section>
+  <h1>Real Code Runner - Prototype</h1>
+  <p>Porototype of
+    <ul>
+      <li>Uploading a challenge</li>
+      <li>Listing challenges</li>
+      <li>Listing details around a challenge</li>
+      <li>Uploading a submission</li>
+      <li>Running a submission against a challenge</li>
+    </ul>
+  </p>
+</section>
+
+<hr />
+
+<section>
+  <h3>Uploading a challenge</h3>
+
+  <div data-widget-type="rcp-UploadChallenge" data-token="data-token"></div>
+
+  <script type="text/javascript">
+    const me = document.currentScript;
+    fetch("http://localhost:3000/packs/manifest.json")
+      .then(response => response.json())
+      .then(responseJson => {
+        const widget = document.createElement("SCRIPT");
+        widget.type = "text/javascript";
+        widget.src = responseJson["widget_app.js"];
+        me.parentElement.appendChild(widget);
+      });
+  </script>
+
+  <div id="accordion" class="mt-3">
+    <div class="card">
+      <div class="card-header" id="headingTwo">
+        <h5 class="mb-0">
+          <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseUploading" aria-expanded="false" aria-controls="collapseTwo">
+            Code Sample
+          </button>
+        </h5>
+      </div>
+      <div id="collapseUploading" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+        <div class="card-body">
+          <pre>
+<%=
+'
+<div class="rcp-upload-challenge-widget" data-token=""></div>
+
+<script type="text/javascript">
+  const me = document.currentScript;
+  fetch("http://localhost:3000/packs/manifest.json")
+    .then(response => response.json())
+    .then(responseJson => {
+      const widget = document.createElement("SCRIPT");
+      widget.type = "text/javascript";
+      widget.src = responseJson["widget_app.js"];
+      me.parentElement.appendChild(widget);
+    });
+</script>
+'
+%>
+          </pre>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr />
+
+<section>
+  <h3>Listing challenges</h3>
+
+  <script type="text/javascript">
+    function fetchChallengesBody() {
+      return {
+        operationName: "Challenges",
+        query: `query Challenges {
+          challenges {
+            id
+            title
+            description
+          }
+        }`
+      }
+    }
+
+    function fetchChallenges(event) {
+      const authToken = document.getElementById("auth-token").value;
+      const body = fetchChallengesBody();
+      const preElement = document.getElementById("challenges-call-result");
+
+      fetchGraphql(authToken, body, preElement);
+
+      event.preventDefault ? event.preventDefault() : event.returnValue = false;
+    }
+  </script>
+
+  <form>
+    <div class="form-group">
+      <label>Auth token</label>
+      <input
+        id="auth-token"
+        type="text"
+        class="form-control"
+        placeholder="auth token from /admin/users"
+        value="eyJhbGciOiJIUzI1NiJ9.eyJpZCI6IjcwYWVlN2FlLWIxZDgtNDlhYS05MjVmLWVjNjE4MTRjNzBlMSIsImV4cCI6MTU4MjU5ODg0NH0.epF-Gsjem65tkLjyftFQt5iX1PHtyIHIm82rkRkO9zY"
+      />
+    </div>
+    <div>
+      <button class="btn btn-primary" onClick="fetchChallenges(event)">
+        fetch challenges
+      </button>
+    </div>
+  </form>
+  <div>
+    <strong>Result</strong>
+    <pre id="challenges-call-result">...</pre>
+  </div>
+
+  <div id="accordion" class="mt-3">
+    <div class="card">
+      <div class="card-header" id="headingTwo">
+        <h5 class="mb-0">
+          <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseListing" aria-expanded="false" aria-controls="collapseTwo">
+            Code Sample
+          </button>
+        </h5>
+      </div>
+      <div id="collapseListing" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+        <div class="card-body">
+          <pre>
+<%=
+'
+<script type="text/javascript">
+  function fetchChallengesBody() {
+    return {
+      operationName: "Challenges",
+      query: `query Challenges {
+        challenges {
+          id
+          title
+          description
+        }
+      }`
+    }
+  }
+
+  function fetchChallenges(event) {
+    const authToken = document.getElementById("auth-token").value;
+    const body = fetchChallengesBody();
+    const preElement = document.getElementById("challenges-call-result");
+
+    fetchGraphql(authToken, body, preElement);
+
+    event.preventDefault ? event.preventDefault() : event.returnValue = false;
+  }
+</script>
+'
+%>
+          </pre>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr />
+
+<section>
+  <h3>Listing details around a challenge</h3>
+
+  <script type="text/javascript">
+    function fetchChallengeBody(challengeId) {
+      return {
+        operationName: "Challenge",
+        variables: { id: challengeId },
+        query: `query Challenge($id: ID!) {
+          challenge(id: $id) {
+            id
+            title
+            description
+            metadata {
+              readme
+            }
+            features {
+              title
+              text
+            }
+            featureFileUrls {
+              filename
+              url
+            }
+            helperImageUrls {
+              filename
+              url
+           }
+          }
+        }`
+      }
+    }
+
+    function fetchChallenge(event) {
+      const authToken = document.getElementById("auth-token").value;
+      const challengeId = document.getElementById("challenge-id").value;
+      const body = fetchChallengeBody(challengeId);
+      const preElement = document.getElementById("challenge-call-result");
+
+      fetchGraphql(authToken, body, preElement);
+
+      event.preventDefault ? event.preventDefault() : event.returnValue = false;
+    }
+  </script>
+
+  <form>
+    <div class="form-group">
+      <label>Challenge ID</label>
+      <input
+        id="challenge-id"
+        type="text"
+        class="form-control"
+        placeholder="challenge id"
+        value="c8d40015-d6f4-43d0-b4b4-7d4dff795596"
+      />
+    </div>
+    <div>
+      <button class="btn btn-primary" onClick="fetchChallenge(event)">
+        fetch challenge
+      </button>
+    </div>
+  </form>
+  <div>
+    <strong>Result</strong>
+    <pre id="challenge-call-result">...</pre>
+  </div>
+
+  <div id="accordion" class="mt-3">
+    <div class="card">
+      <div class="card-header" id="headingTwo">
+        <h5 class="mb-0">
+          <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseDetails" aria-expanded="false" aria-controls="collapseTwo">
+            Code Sample
+          </button>
+        </h5>
+      </div>
+      <div id="collapseDetails" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+        <div class="card-body">
+          <pre>
+<%=
+'
+<script type="text/javascript">
+  function fetchChallengeBody(challengeId) {
+    return {
+      operationName: "Challenge",
+      variables: { id: challengeId },
+      query: `query Challenge($id: ID!) {
+        challenge(id: $id) {
+          id
+          title
+          description
+          metadata {
+            readme
+          }
+          features {
+            title
+            text
+          }
+          featureFileUrls {
+            filename
+            url
+          }
+          helperImageUrls {
+            filename
+            url
+          }
+        }
+      }`
+    }
+  }
+
+  function fetchChallenge(event) {
+    const authToken = document.getElementById("auth-token").value;
+    const challengeId = document.getElementById("challenge-id").value;
+    const body = fetchChallengeBody(challengeId);
+    const preElement = document.getElementById("challenge-call-result");
+
+    fetchGraphql(authToken, body, preElement);
+
+    event.preventDefault ? event.preventDefault() : event.returnValue = false;
+  }
+</script>
+
+<form>
+  <div>
+    <input
+      id="challenge-id"
+      type="text"
+      placeholder="challenge id"
+      value="c8d40015-d6f4-43d0-b4b4-7d4dff795596"
+    />
+  </div>
+  <div>
+    <button onClick="fetchChallenge(event)">
+      fetch challenge
+    </button>
+  </div>
+</form>
+'
+%>
+          </pre>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr />
+
+<section>
+  <h3>Uploading a submission</h3>
+
+  <div data-widget-type="rcp-UploadSubmission" data-token="data-token"></div>
+
+  <script type="text/javascript">
+    const me = document.currentScript;
+    fetch("http://localhost:3000/packs/manifest.json")
+      .then(response => response.json())
+      .then(responseJson => {
+        const widget = document.createElement("SCRIPT");
+        widget.type = "text/javascript";
+        widget.src = responseJson["widget_app.js"];
+        me.parentElement.appendChild(widget);
+      });
+  </script>
+  <div id="accordion" class="mt-3">
+    <div class="card">
+      <div class="card-header" id="headingTwo">
+        <h5 class="mb-0">
+          <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseUploadSubmission" aria-expanded="false" aria-controls="collapseTwo">
+            Code Sample
+          </button>
+        </h5>
+      </div>
+      <div id="collapseUploadSubmission" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+        <div class="card-body">
+          <pre>
+<%=
+'
+<div data-widget-type="rcp-UploadSubmission" data-token="data-token"></div>
+
+<script type="text/javascript">
+  const me = document.currentScript;
+  fetch("http://localhost:3000/packs/manifest.json")
+    .then(response => response.json())
+    .then(responseJson => {
+      const widget = document.createElement("SCRIPT");
+      widget.type = "text/javascript";
+      widget.src = responseJson["widget_app.js"];
+      me.parentElement.appendChild(widget);
+    });
+</script>
+'
+%>
+          </pre>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr />
+
+<section>
+  <h3>Running a submission against a challenge</h3>
+</section>
+</div>
+</div>
+</div>
