@@ -85,6 +85,7 @@ RAILS_MASTER_KEY=`cat config/master.key` \
 
 **Top of mind**
 
+- [ ] triple solution support, URL & token, text, zip file & runner command
 - [ ] log to file in shared dir between local and docker not to have to strip
       out docker service name but had issues with `|` in `CMD` section of docker
   ```
