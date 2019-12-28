@@ -92,11 +92,9 @@ RAILS_MASTER_KEY=`cat config/master.key` \
   ADD log /var/log
   CMD .... | tee /var/log/output.txt
   ```
-- [ ] what is `ActiveSupport::MessageVerifier::InvalidSignature` error
 - [ ] move the manifest finding code into a `non-cached` main.js
 - [ ] use signed keys not the actual JWT
 - [ ] change the JWT to have a known secret
-- [ ] can we just use a plain old form?
 - [ ] run a docker command from rails, look at coloring, etc
 
 ```ruby
@@ -170,6 +168,9 @@ end
 
 ## DONE
 
+- [x] can we just use a plain old form? - yes
+- [x] what is `ActiveSupport::MessageVerifier::InvalidSignature` error - need
+      enctype to be multipart
 - [x] **MM** display console control characters in HTML output
 - [x] API to make image and feature file available
   ```
