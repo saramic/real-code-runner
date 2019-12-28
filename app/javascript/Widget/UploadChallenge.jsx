@@ -1,9 +1,19 @@
 import React from "react";
 import { Form, FormGroup, Input, Label, Button } from "reactstrap";
 
-export default function UploadChallenge() {
+export default function UploadChallenge({ token }) {
+  const hostAndPort = window.location.href.replace(
+    window.location.pathname,
+    ""
+  );
+
   return (
-    <Form action="/admin/challenges" method="post">
+    <Form
+      action={`${hostAndPort}/challenges`}
+      method="post"
+      encType="multipart/form-data"
+    >
+      <Input type="hidden" name="user_token" value={token} />
       <FormGroup>
         <Label>Title</Label>
         <Input type="text" name="challenge[title]" />

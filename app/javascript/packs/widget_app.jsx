@@ -14,7 +14,7 @@ const render = node => {
   try {
     if (node) {
       ReactDOM.render(
-        <DynamicComponent />,
+        <DynamicComponent token={node.dataset.token} />,
         node.appendChild(document.createElement("div"))
       );
     }

@@ -71,7 +71,7 @@
 <section>
   <h3><a name="uploading-a-challenge">Uploading a challenge</a></h3>
 
-  <div data-widget-type="rcp-UploadChallenge" data-token="data-token"></div>
+  <div data-widget-type="rcp-UploadChallenge" data-token="<%= @jwt %>"></div>
 
   <script type="text/javascript">
     const me = document.currentScript;
@@ -91,7 +91,7 @@
       <div class="card-header" id="headingTwo">
         <h5 class="mb-0">
           <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseUploading" aria-expanded="false" aria-controls="collapseTwo">
-            Code Sample
+            Code Sample - javascript widget
           </button>
         </h5>
       </div>
@@ -114,6 +114,49 @@
       me.parentElement.appendChild(widget);
     });
 </script>
+'
+%>
+          </pre>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header" id="headingTwo">
+        <h5 class="mb-0">
+          <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseUploadingBasicForm" aria-expanded="false" aria-controls="collapseTwo">
+            Code Sample - basic form
+          </button>
+        </h5>
+      </div>
+      <div id="collapseUploadingBasicForm" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+        <div class="card-body">
+          <pre>
+<%=
+'
+<form
+  action= "' + URI(request.protocol + request.host_with_port).to_s + '/challenges"
+  method="post"
+  enctype="multipart/form-data"
+>
+  <input
+    name="user_token"
+    type="hidden"
+    value="' + @jwt + '"
+  />
+  <div>
+    <label>Title</label
+    ><input name="challenge[title]" type="text" />
+  </div>
+  <div>
+    <label>Description</label
+    ><input name="challenge[description]" type="text" />
+  </div>
+  <div>
+    <label>Test case</label
+    ><input name="challenge[test_case]" type="file" />
+  </div>
+  <button>upload</button>
+</form>
 '
 %>
           </pre>
@@ -380,7 +423,7 @@
 <section>
   <h3><a name="uploading-a-submission">Uploading a submission</a></h3>
 
-  <div data-widget-type="rcp-UploadSubmission" data-token="data-token"></div>
+  <div data-widget-type="rcp-UploadSubmission" data-token="<%= @jwt %>"></div>
 
   <script type="text/javascript">
     const me = document.currentScript;
@@ -399,7 +442,7 @@
       <div class="card-header" id="headingTwo">
         <h5 class="mb-0">
           <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseUploadSubmission" aria-expanded="false" aria-controls="collapseTwo">
-            Code Sample
+            Code Sample - javascript widget
           </button>
         </h5>
       </div>
@@ -408,7 +451,7 @@
           <pre>
 <%=
 '
-<div data-widget-type="rcp-UploadSubmission" data-token="data-token"></div>
+<div data-widget-type="rcp-UploadSubmission" data-token="' + @jwt + '"></div>
 
 <script type="text/javascript">
   const me = document.currentScript;
@@ -422,6 +465,63 @@
       me.parentElement.appendChild(widget);
     });
 </script>
+'
+%>
+          </pre>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header" id="headingTwo">
+        <h5 class="mb-0">
+          <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseUploadSubmissionBasicForm" aria-expanded="false" aria-controls="collapseTwo">
+            Code Sample - basic form
+          </button>
+        </h5>
+      </div>
+      <div id="collapseUploadSubmissionBasicForm" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+        <div class="card-body">
+          <pre>
+<%=
+'
+<form
+  action= "' + URI(request.protocol + request.host_with_port).to_s + '/submissions"
+  method="post"
+  enctype="multipart/form-data"
+>
+  <input
+    name="user_token"
+    type="hidden"
+    value="' + @jwt + '"
+  />
+  <div>
+    <label>Challenge ID</label
+    ><input
+      name="submission[challenge_id]"
+      type="text"
+    />
+  </div
+  <div>
+    <label>External user identifier</label
+    ><input
+      name="submission[external_user_identifier]"
+      type="text"
+    />
+  </div>
+  <div>
+    <label>URL</label
+    ><input name="submission[url]" type="text" />
+  </div
+  <div>
+    <label>text</label
+    ><input name="submission[text]" type="text" />
+  </div>
+  <div>
+    <label>file</label
+    ><input name="submission[file]" type="file" />
+  </div>
+  <button>submit</button>
+</form>
 '
 %>
           </pre>

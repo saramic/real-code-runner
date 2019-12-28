@@ -12,8 +12,8 @@ module Resolvers
         challenge_id: challenge_id,
         external_user_identifier: external_user_identifier,
       )
-      .includes(:runs)
-      .order(::Submission.arel_table[:created_at].desc)
+                  .includes(:runs)
+                  .order(::Submission.arel_table[:created_at].desc)
     end
   end
 end
