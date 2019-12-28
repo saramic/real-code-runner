@@ -85,6 +85,12 @@ RAILS_MASTER_KEY=`cat config/master.key` \
 
 **Top of mind**
 
+- [ ] log to file in shared dir between local and docker not to have to strip
+      out docker service name but had issues with `|` in `CMD` section of docker
+  ```
+  ADD log /var/log
+  CMD .... | tee /var/log/output.txt
+  ```
 - [ ] what is `ActiveSupport::MessageVerifier::InvalidSignature` error
 - [ ] move the manifest finding code into a `non-cached` main.js
 - [ ] use signed keys not the actual JWT
@@ -113,7 +119,7 @@ Dir.mktmpdir do |dir|
 
   filepath = File.dirname(docker_compose_path)
   run.result ||= {}
-  run.result["output"] = `cd #{filepath} && docker-compose up &2>1`
+  run.result["output"] = `cd #{filepath} && docker-compose up | sed -e $"s/^.* |.... //g"`
   run.save
 end
 ```
