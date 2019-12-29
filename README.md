@@ -121,6 +121,8 @@ RAILS_MASTER_KEY=`cat config/master.key` \
 - [ ] widgetized form need to get the host and port from the server and not
       from where they are displayed `window.location.pathname`
 - [ ] make submission runner more generic
+- [ ] update frontend to make use of metadata
+- [ ] decide NOT to store the run output in submission
 - [ ] solution to support URL & token
 - [ ] solution to support zip file & runner command
 - [ ] log to file in shared dir between local and docker not to have to strip
