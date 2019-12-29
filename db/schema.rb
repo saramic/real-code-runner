@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_23_000000) do
+ActiveRecord::Schema.define(version: 2019_12_28_222222) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -64,6 +64,7 @@ ActiveRecord::Schema.define(version: 2019_12_23_000000) do
     t.jsonb "result"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.text "text"
     t.index ["challenge_id"], name: "index_submissions_on_challenge_id"
   end
 

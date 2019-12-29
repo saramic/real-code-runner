@@ -85,7 +85,11 @@ RAILS_MASTER_KEY=`cat config/master.key` \
 
 **Top of mind**
 
-- [ ] triple solution support, URL & token, text, zip file & runner command
+- [ ] widgetized form need to get the host and port from the server and not
+      from where they are displayed `window.location.pathname`
+- [ ] make submission runner more generic
+- [ ] solution to support URL & token
+- [ ] solution to support zip file & runner command
 - [ ] log to file in shared dir between local and docker not to have to strip
       out docker service name but had issues with `|` in `CMD` section of docker
   ```
@@ -95,33 +99,6 @@ RAILS_MASTER_KEY=`cat config/master.key` \
 - [ ] move the manifest finding code into a `non-cached` main.js
 - [ ] use signed keys not the actual JWT
 - [ ] change the JWT to have a known secret
-- [ ] run a docker command from rails, look at coloring, etc
-
-```ruby
-require 'zip'
-
-challenge = Challenge.find_by(title: "Introduction")
-submission = Submission.create!(challenge: challenge, external_user_identifier: 'demo_user')
-run = Run.create(submission: submission)
-Dir.mktmpdir do |dir|
-  challenge.test_case.blob.open do |test_case|
-    Zip::File.open(test_case) do |zipfile|
-      zipfile.each do |entry|
-        filepath = File.join(dir, entry.name)
-        FileUtils.mkdir_p(File.dirname(filepath))
-        zipfile.extract(entry, filepath) unless File.exist?(filepath)
-      end
-    end
-  end
-  docker_compose_path = `find #{dir} -name docker-compose.yml`
-  raise "no docker-compose.yml file found" if docker_compose_path.empty?
-
-  filepath = File.dirname(docker_compose_path)
-  run.result ||= {}
-  run.result["output"] = `cd #{filepath} && docker-compose up | sed -e $"s/^.* |.... //g"`
-  run.save
-end
-```
 
 **Bugs**
 
@@ -168,6 +145,9 @@ end
 
 ## DONE
 
+- [x] solution to support text
+- [x] run a docker command from rails, look at coloring, etc
+      `rails process:submissions`
 - [x] can we just use a plain old form? - yes
 - [x] what is `ActiveSupport::MessageVerifier::InvalidSignature` error - need
       enctype to be multipart

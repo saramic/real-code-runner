@@ -11,7 +11,8 @@ class SubmissionDashboard < Administrate::BaseDashboard
     challenge: Field::BelongsTo,
     id: Field::String.with_options(searchable: false),
     external_user_identifier: Field::String,
-    status: Field::Number,
+    status: Field::String.with_options(searchable: false),
+    text: Field::Text,
     result: Field::String.with_options(searchable: false),
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
@@ -26,7 +27,6 @@ class SubmissionDashboard < Administrate::BaseDashboard
     challenge
     id
     external_user_identifier
-    status
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
@@ -36,6 +36,7 @@ class SubmissionDashboard < Administrate::BaseDashboard
     id
     external_user_identifier
     status
+    text
     result
     created_at
     updated_at
@@ -48,6 +49,7 @@ class SubmissionDashboard < Administrate::BaseDashboard
     challenge
     external_user_identifier
     status
+    text
     result
   ].freeze
 
