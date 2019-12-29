@@ -2,6 +2,16 @@
 
 ## Running
 
+### Install required tools
+
+```bash
+make install_tools
+make check_tools
+make build
+```
+
+- Install and start Docker
+
 ### Quick start reset db and get some data
 
 Assuming you have tools setup, start from scratch by reseting the database,
@@ -25,99 +35,106 @@ rails server
 
 Now you should be able to view the challenge and submission
 
-- http://localhost:3000/admin
-- http://localhost:3000/demo
+- http://localhost:3000/admin - to manage users, challenges and view
+  submissions and runs
+- http://localhost:3000/demo - a demo of what the frontend for submitting
+  submissions might look like
+- http://localhost:3000/prototype - for external users to use runner as API
 
 ---
 
-then you can run the build and server
+### Admin priveledges for a user
 
-```
-make build
-rails server
-```
-
-setup a user, under `/admin` choose to **Sign up**
-
-```
-
-# give user admin privelages
-
+```bash
 rake setup:admin_user[saramic@gmail.com]
-
 ```
 
-upload an **Introduction** and **Blog** challenge and manually process the
-files
+### Manual tasks
+
+to be replaced by **BACKGROUND WORKERS**
+
+When a challenge is uploaded it needs metadata extracted: features, readme,
+metadata.json and helper_images. This processing can be done any time to all
+challenges idempotently using:
 
 ```
-
 rake process:challenges
-
 ```
 
-## Deploying
+When a submission is updated it's state is `uploaded`. Any submission in the
+state `uploaded` can be processed by running the associated `challenge` against
+the `submission` in a `run` using the following task:
 
 ```
-
-RAILS_MASTER_KEY=`cat config/master.key` \
-  RUNNER_SECRET=secret_runner            \
-  HEROKU_APP_NAME=stg-real-code-runner   \
-  make deploy
+rails process:submissions
 ```
+
+### Deploying
+
+assuming you have access to `config/master.key` you can deploy to
+https://stg-real-code-runner.herokuapp.com/admin using
+
+```
+make deploy
+```
+
+### Heroku staging
+
+- https://stg-real-code-runner.herokuapp.com/admin
+- https://stg-real-code-runner.herokuapp.com/demo
+- https://stg-real-code-runner.herokuapp.com/prototype
+
+1. access heroku
+
+- `heroku logs --tail`
+- `heroku run rails console`
+- `echo "puts User.all.pluck(:email)" | heroku run console --app=stg-real-code-runner --no-tty`
+
+### CI
+
+_need to make CI run actual JS integration specs_
+
+- team https://circleci.com/team/gh/saramic
+- signup here https://circleci.com/signup/
+
+---
 
 ## TODO
 
-- [ ] worker for processing - post process an uploaded zip file for a challenge
-      in a worker
+**Background Workers**
 
-  **Note:** this should now work! at least in developement due to the change to
-  config/environments/development.rb to `config.active_job.queue_adapter = :inline`
+- [ ] worker for post processing an uploaded challenge `test_case` zip file
+      extract: features, readme, metadata.json and helper_images. basically to run
+      `lib/tasks/process_challenges.rake`
+  ```
+  rake process:challenges
+  ```
+- [ ] worker for running a submission against a challenge. For submissions in status `uploaded`
+      basically to run `lib/tasks/process_submissions.rake`
+  ```
+  rails process:submissions
+  ```
+- [ ] setup workers in Heroku
+- [ ] do all the other background worker things: retries, deal with errors, a status dasboard, etc
 
-  as part of commit https://github.com/saramic/real-code-runner/commit/bd55a9224d16c4a9b2564760fa0b32cdd304ea62
+**Product vision**
 
-  similar to `rake process:challenges` in file
-  `lib/tasks/process_challenges.rake`
-
-```ruby
-  require "zip"
-  challenge = Challenge.find_by(title: "Introduction")
-
-  # deal with existing attachments? just delete them?
-  challenge.helper_images = challenge.feature_files = []
-  challenge.save!
-
-  challenge.test_case.blob.open do |file|
-    Zip::File.open(file) do |zipfiles|
-      zipfiles.each do |entry|
-        if entry.name =~ /helper_images\/.*\.jpg/
-          challenge.helper_images.attach(
-            io: StringIO.new(entry.get_input_stream.read),
-            filename: entry.name
-          )
-        end
-        if entry.name =~ /features\/.*\.feature/
-          challenge.feature_files.attach(
-            io: StringIO.new(entry.get_input_stream.read),
-            filename: entry.name
-          )
-        end
-        if entry.name =~ /README.md/
-          challenge.metadata ||= {}
-          challenge.metadata["readme"] = entry.get_input_stream.read
-        end
-      end
-    end
-  end
-  challenge.save!
-```
-
-- [ ] worker for processing runs
 - [ ] fix BDD terminology in challenges
-- [ ] file upload widget using JWT
+
+* [ ] **MM** introduce the concept - text, images and video
+* [ ] **MM** how to find a challenge
+* [ ] **MM** how challenges are displayed
+* [ ] **MM** submission feedback
+* [ ] **MM** user onboarding flow - github signup, email confirmation, simple
+      get started challenge - place a form on a public webpage
 
 **Top of mind**
 
+- [ ] this is no longer necessary once UUID and BigInt issues were solved
+      **Note:** this should now work! at least in developement due to the change to
+      config/environments/development.rb to `config.active_job.queue_adapter = :inline`
+      as part of commit
+      https://github.com/saramic/real-code-runner/commit/bd55a9224d16c4a9b2564760fa0b32cdd304ea62
 - [ ] status for Challenge and update both for re-processing
 - [ ] widgetized form need to get the host and port from the server and not
       from where they are displayed `window.location.pathname`
@@ -139,15 +156,6 @@ RAILS_MASTER_KEY=`cat config/master.key` \
 **Bugs**
 
 - [ ] need a readme otherwise GraphQL query fails
-
-**Product vision**
-
-- [ ] **MM** introduce the concept - text, images and video
-- [ ] **MM** how to find a challenge
-- [ ] **MM** how challenges are displayed
-- [ ] **MM** submission feedback
-- [ ] **MM** user onboarding flow - github signup, email confirmation, simple
-      get started challenge - place a form on a public webpage
 
 **Tech**
 
@@ -184,6 +192,7 @@ RAILS_MASTER_KEY=`cat config/master.key` \
 - [x] solution to support text
 - [x] run a docker command from rails, look at coloring, etc
       `rails process:submissions`
+- [x] file upload widget using JWT
 - [x] can we just use a plain old form? - yes
 - [x] what is `ActiveSupport::MessageVerifier::InvalidSignature` error - need
       enctype to be multipart
@@ -203,59 +212,6 @@ RAILS_MASTER_KEY=`cat config/master.key` \
   - influenced by [ruby on whales evilmartians
     blog](https://evilmartians.com/chronicles/ruby-on-whales-docker-for-ruby-rails-development)
     look at more optimisations here around `node_modules` etc.
-
-## Contributing
-
-1. run `make` and see the limited tests pass
-1. run `rails server` and see [admin](https://localhost:3000/admin) and
-   [demo](https://localhost:3000/demo)
-1. upload a demo challenge
-
-```
-git clone https://github.com/saramic/real-code-challenge-blog
-cd real-code-challenge-blog
-# export ~ 3Mb
-git archive master --format zip --output ../real-code-challenge-blog.zip
-# upload
-open ..
-open http://localhost:3000/admin/challenges/new
-```
-
-1. manually process an uploaded challenge - see post process in TODO section.
-1. confirm that you have access to credentials
-
-```
-rails credentials:edit
-```
-
-you will need the file `config/master.key`
-
-1. check out the running version on heroku
-
-- https://stg-real-code-runner.herokuapp.com/admin
-- https://stg-real-code-runner.herokuapp.com/demo
-
-1. do a deploy
-
-```
-RAILS_MASTER_KEY=`cat config/master.key` \
-  RUNNER_SECRET=secret_runner            \
-  HEROKU_APP_NAME=stg-real-code-runner   \
-  make deploy
-```
-
-1. access heroku
-
-- `heroku logs --tail`
-- `heroku run rails console`
-- `echo "puts User.all.pluck(:email)" | heroku run console --app=stg-real-code-runner --no-tty`
-
-1. checkout the build
-
-- team https://circleci.com/team/gh/saramic
-- signup here https://circleci.com/signup/
-
-1. add something to the TODO that you are working on 💥
 
 ## Docker
 

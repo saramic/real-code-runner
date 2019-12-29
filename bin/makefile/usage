@@ -23,6 +23,13 @@ _usage() {
   echo -e "${YELLOW}make zip_demo${NC}      zip up a demo challenge from demo/introduction"
   echo -e "${YELLOW}make setup${NC}         reset_db, setup a user, a challenge and run a submission"
   echo
+  echo -e "${GREEN}Helful rails tasks${NC}"
+  echo
+  echo -e "${YELLOW}rails setup:admin_user[name@email.com]${NC} admin priveledges for an existing user"
+  echo -e "${RED}to be replaced by BACKGROUND WORKERS${NC}"
+  echo -e "    ${YELLOW}rails process:challenges${NC}           process challenges to extract metadata"
+  echo -e "    ${YELLOW}rails process:submissions${NC}          run a submission against a challenge"
+  echo
   echo -e "${GREEN}Deploy to Heroku${NC}"
   echo
   echo -e "${YELLOW}make deploy${NC}        assuming access to 'config/master.key' deploy to Heroku"
