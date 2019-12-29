@@ -11,7 +11,8 @@ creating a user and adding a challenge.
 
 - to run the submission you will need docker running.
 - first time it is run the docker image needs to be built and the last step
-  will take minutes to complete (~18 mins on my machine)
+  will take minutes to complete (~18 mins via rake task or ~8 mins with a
+  `docker-compose build` on my machine/network)
 
 replace email with an email you like to login to in development mode with
 password: `password`
