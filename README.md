@@ -2,31 +2,63 @@
 
 ## Running
 
+### Quick start reset db and get some data
+
+Assuming you have tools setup, start from scratch by reseting the database,
+creating a user and adding a challenge.
+
+**Note:**
+
+- to run the submission you will need docker running.
+- first time it is run the docker image needs to be built and the last step
+  will take minutes to complete (~18 mins on my machine)
+
+replace email with an email you like to login to in development mode with
+password: `password`
+
 ```
-make
+make setup email=saramic@gmail.com
+
 rails server
 ```
+
+Now you should be able to view the challenge and submission
 
 - http://localhost:3000/admin
 - http://localhost:3000/demo
 
+---
+
+then you can run the build and server
+
+```
+make build
+rails server
+```
+
 setup a user, under `/admin` choose to **Sign up**
 
 ```
+
 # give user admin privelages
+
 rake setup:admin_user[saramic@gmail.com]
+
 ```
 
 upload an **Introduction** and **Blog** challenge and manually process the
 files
 
 ```
-rake setup:process:challenges
+
+rake process:challenges
+
 ```
 
 ## Deploying
 
 ```
+
 RAILS_MASTER_KEY=`cat config/master.key` \
   RUNNER_SECRET=secret_runner            \
   HEROKU_APP_NAME=stg-real-code-runner   \
@@ -43,7 +75,7 @@ RAILS_MASTER_KEY=`cat config/master.key` \
 
   as part of commit https://github.com/saramic/real-code-runner/commit/bd55a9224d16c4a9b2564760fa0b32cdd304ea62
 
-  similar to `rake setup:process:challenges` in file
+  similar to `rake process:challenges` in file
   `lib/tasks/process_challenges.rake`
 
 ```ruby
@@ -85,6 +117,7 @@ RAILS_MASTER_KEY=`cat config/master.key` \
 
 **Top of mind**
 
+- [ ] status for Challenge and update both for re-processing
 - [ ] widgetized form need to get the host and port from the server and not
       from where they are displayed `window.location.pathname`
 - [ ] make submission runner more generic

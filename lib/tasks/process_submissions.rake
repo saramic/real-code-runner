@@ -31,6 +31,13 @@ namespace :process do
 
           submission_relative_filepath = submission_filepath.sub(filepath, ".")
           run.result ||= {}
+          build_docker_command = [
+            "cd #{filepath}",
+            "&&",
+            "ENTRY_POINT='' docker-compose build",
+          ].join(" ")
+          _build_docker_output = `#{build_docker_command}`
+
           command = [
             "cd #{filepath}",
             "&&",
