@@ -1,0 +1,55 @@
+[
+  {
+    "uri": "features/feature_01_get_some_static_text_on_a_web_page.feature",
+    "id": "get-some-static-text-on-a-web-page",
+    "keyword": "Feature",
+    "name": "Get some static text on a web page",
+    "description": "",
+    "line": 1,
+    "elements": [
+      {
+        "id": "get-some-static-text-on-a-web-page;generate-a-static-web-page-with-a-`h1`-and-a-`p`-tag",
+        "keyword": "Scenario",
+        "name": "Generate a static web page with a `h1` and a `p` tag",
+        "description": "",
+        "line": 3,
+        "type": "scenario",
+        "steps": [
+          {
+            "keyword": "Given ",
+            "name": "a static file",
+            "line": 4,
+            "helper_imags": [],
+            "hints": [
+              "pass a static fail via the \"ENTRY_POINT\" environment variable as in\n\nENTRY_POINT=path/to/my/file docker-compose up"
+            ]
+          },
+          {
+            "keyword": "Then ",
+            "name": "it has a \"h1\" with the text \"Welcome to Real Code Problems\"",
+            "line": 6,
+            "helper_imags": [
+              "helper_images/feature_01_heading.png"
+            ],
+            "hints": [
+              "need a \"h1\" html tag as in\n\n<h1>Welcome to Real Code Problems</h1>"
+            ]
+          },
+          {
+            "keyword": "And ",
+            "name": "the following elements with text",
+            "line": 7,
+            "helper_imags": [
+              "helper_images/feature_01_heading.png",
+              "helper_images/feature_01_paragraph.png"
+            ],
+            "hints": [
+              "need a \"h1\" html tag as in\n\n<h1>Welcome to Real Code Problems</h1>",
+              "need a \"p\" html tag as in\n\n<p>Real code problems help you learn how to code while solving real problems.</p>"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

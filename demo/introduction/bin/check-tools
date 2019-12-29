@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+set -e
+
+source ~/.asdf/asdf.sh
+
+ruby -v
+
+expected_ruby_version=`grep ruby .tool-versions | cut -d " " -f 2`
+actual_ruby_version=`ruby -v`
+if [[ "$actual_ruby_version" != *"$expected_ruby_version"* ]]; then
+  echo expected ruby "$expected_ruby_version" but found ruby "$actual_ruby_version"
+  exit 1
+fi
+

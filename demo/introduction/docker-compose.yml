@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+
+  features:
+    build: .
+    volumes:
+      - .:/usr/src/app
+      - gem_cache:/gems
+    environment:
+      - ENTRY_POINT=${ENTRY_POINT}
+
+volumes:
+  gem_cache:
+

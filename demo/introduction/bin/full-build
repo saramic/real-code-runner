@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+set -e
+
+source ~/.asdf/asdf.sh
+
+bundle install
+bundle exec rubocop
+bundle exec cucumber
