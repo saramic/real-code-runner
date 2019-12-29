@@ -188,6 +188,7 @@ _need to make CI run actual JS integration specs_
 ## DONE
 
 - [x] UUID and BigInt mismatch led down false path to inline processing image in development
+      but still seems necessary
       config/environments/development.rb to `config.active_job.queue_adapter = :inline`
       as part of commit
       [bd55a92](https://github.com/saramic/real-code-runner/commit/bd55a9224d16c4a9b2564760fa0b32cdd304ea62)
