@@ -84,8 +84,9 @@ make deploy
 - https://stg-real-code-runner.herokuapp.com/demo
 - https://stg-real-code-runner.herokuapp.com/prototype
 
-1. access heroku
+**Handy Heroku commands**
 
+- `heroku git:remote --app stg-real-code-runner` attach to Heroku app
 - `heroku logs --tail`
 - `heroku run rails console`
 - `echo "puts User.all.pluck(:email)" | heroku run console --app=stg-real-code-runner --no-tty`
@@ -127,14 +128,11 @@ _need to make CI run actual JS integration specs_
 * [ ] **MM** submission feedback
 * [ ] **MM** user onboarding flow - github signup, email confirmation, simple
       get started challenge - place a form on a public webpage
+* [ ] **MM** all the best features - competitions, follow up emails, initial
+      success, more of the hooked model
 
 **Top of mind**
 
-- [ ] this is no longer necessary once UUID and BigInt issues were solved
-      **Note:** this should now work! at least in developement due to the change to
-      config/environments/development.rb to `config.active_job.queue_adapter = :inline`
-      as part of commit
-      https://github.com/saramic/real-code-runner/commit/bd55a9224d16c4a9b2564760fa0b32cdd304ea62
 - [ ] status for Challenge and update both for re-processing
 - [ ] widgetized form need to get the host and port from the server and not
       from where they are displayed `window.location.pathname`
@@ -188,6 +186,19 @@ _need to make CI run actual JS integration specs_
 - [ ] evaluate https://codemirror.net/ for code editing
 
 ## DONE
+
+- [x] UUID and BigInt mismatch led down false path to inline processing image in development
+      config/environments/development.rb to `config.active_job.queue_adapter = :inline`
+      as part of commit
+      [bd55a92](https://github.com/saramic/real-code-runner/commit/bd55a9224d16c4a9b2564760fa0b32cdd304ea62)
+      as tested in rails console with
+      ```
+      rails console
+
+      require 'rake'
+      Rails.application.load_tasks
+      Rake::Task['process:challenges'].invoke
+      ```
 
 - [x] solution to support text
 - [x] run a docker command from rails, look at coloring, etc
