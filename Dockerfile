@@ -26,7 +26,7 @@ WORKDIR /usr/src/app
 
 ENV BUNDLE_PATH /gems
 
-RUN gem install bundler:2.0.2
+RUN gem install bundler:2.1.2
 RUN bundle install
 RUN yarn install
 
