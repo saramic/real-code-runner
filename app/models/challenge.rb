@@ -7,6 +7,8 @@ class Challenge < ApplicationRecord
 
   enum status: { uploaded: 0, processed: 1 }
 
+  before_save :status_uploaded_if_new_test_case
+
   def metadata=(value)
     self[:metadata] = value.is_a?(String) ? JSON.parse(value) : value
   end
@@ -31,6 +33,10 @@ class Challenge < ApplicationRecord
   end
 
   private
+
+  def status_uploaded_if_new_test_case
+    self.status = :uploaded if test_case.new_record?
+  end
 
   def map_urls(attachments)
     attachments.map do |attachment|

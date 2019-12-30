@@ -111,11 +111,15 @@ _need to make CI run actual JS integration specs_
   ```
   rake process:challenges
   ```
+  - worker should be triggered any time `status` is set to `uploaded` (new
+    record and update to test_case)
 - [ ] worker for running a submission against a challenge. For submissions in status `uploaded`
       basically to run `lib/tasks/process_submissions.rake`
   ```
   rails process:submissions
   ```
+  - worker should be triggered any time `status` is set to `uploaded` (new
+    record and update to text)
 - [ ] setup workers in Heroku
 - [ ] do all the other background worker things: retries, deal with errors, a status dasboard, etc
 
@@ -134,7 +138,6 @@ _need to make CI run actual JS integration specs_
 
 **Top of mind**
 
-- [ ] status for Challenge and update both for re-processing
 - [ ] widgetized form need to get the host and port from the server and not
       from where they are displayed `window.location.pathname`
 - [ ] make submission runner more generic
@@ -188,6 +191,7 @@ _need to make CI run actual JS integration specs_
 
 ## DONE
 
+- [x] status for Challenge and update both for re-processing
 - [x] UUID and BigInt mismatch led down false path to inline processing image in development
       but still seems necessary
       config/environments/development.rb to `config.active_job.queue_adapter = :inline`

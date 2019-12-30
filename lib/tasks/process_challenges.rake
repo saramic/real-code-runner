@@ -1,7 +1,7 @@
 require "zip"
 
 namespace :process do
-  desc "process any challenges with uploaded test_case's that have not been processed yet"
+  desc "process challenges with uploaded test_case's"
   task challenges: :environment do
     Challenge
       .where(status: "uploaded")
