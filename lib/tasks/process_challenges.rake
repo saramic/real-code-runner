@@ -1,9 +1,11 @@
 require "zip"
 
 namespace :process do
-  desc "process all challenges"
+  desc "process any challenges with uploaded test_case's that have not been processed yet"
   task challenges: :environment do
-    Challenge.all.each do |challenge|
+    Challenge
+      .where(status: "uploaded")
+      .each do |challenge|
       challenge.helper_images = challenge.feature_files = []
       challenge.save!
 
@@ -33,7 +35,7 @@ namespace :process do
           end
         end
       end
-      challenge.save!
+      challenge.update!(status: "processed")
     end
   end
 end

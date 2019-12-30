@@ -12,6 +12,7 @@ class ChallengeDashboard < Administrate::BaseDashboard
     title: Field::String,
     description: Field::Text,
     metadata: Field::JSONB,
+    status: Field::String.with_options(searchable: false),
     test_case: Field::ActiveStorage,
     # ^^ for JS?? .with_options({direct_upload: true}),
     feature_files: Field::ActiveStorage,
@@ -42,6 +43,7 @@ class ChallengeDashboard < Administrate::BaseDashboard
     title
     description
     metadata
+    status
     test_case
     feature_files
     helper_images
@@ -56,6 +58,7 @@ class ChallengeDashboard < Administrate::BaseDashboard
     title
     description
     metadata
+    status
     test_case
     feature_files
     helper_images

@@ -5,6 +5,8 @@ class Challenge < ApplicationRecord
   has_many_attached :feature_files
   has_many_attached :helper_images
 
+  enum status: { uploaded: 0, processed: 1 }
+
   def metadata=(value)
     self[:metadata] = value.is_a?(String) ? JSON.parse(value) : value
   end

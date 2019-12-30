@@ -53,9 +53,10 @@ rake setup:admin_user[saramic@gmail.com]
 
 to be replaced by **BACKGROUND WORKERS**
 
-When a challenge is uploaded it needs metadata extracted: features, readme,
+When a challenge is first created it's state is `uploaded`. Any challenge that
+is `uploaded` needs to be `processed` to extract: features, readme,
 metadata.json and helper_images. This processing can be done any time to all
-challenges idempotently using:
+`uploaded` challenges idempotently using:
 
 ```
 rake process:challenges
