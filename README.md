@@ -160,6 +160,7 @@ _need to make CI run actual JS integration specs_
 - [ ] move the manifest finding code into a `non-cached` main.js
 - [ ] use signed keys not the actual JWT
 - [ ] change the JWT to have a known secret
+- [ ] add graphQL add submission to `/prototype`
 
 **Bugs**
 

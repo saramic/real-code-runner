@@ -55,7 +55,19 @@ const GET_PAST_SUBMISSIONS = gql`
       id
       result {
         output
+        exitCode
+        scenario {
+          total
+          output
+        }
+        step {
+          total
+          output
+        }
       }
+      status
+      updatedAt
+      text
       runs {
         id
         result {
@@ -124,6 +136,7 @@ const SubmissionUrl = () => (
 
 const SubmissionText = ({ challengeId }) => {
   const [submissionText] = useState("<html>\n</html>");
+  // eslint-disable-next-line no-unused-vars
   const [_isEditorReady, setIsEditorReady] = useState(false);
   const valueGetter = useRef();
 
@@ -208,34 +221,36 @@ const PastSubmissions = ({ challengeId }) => {
             {data.submissions.map(submission => (
               <div key={submission.id}>
                 <Button data-id={submission.id} color="link" onClick={toggle}>
-                  {`show result for ${submission.id}`}
+                  {submission.status === "uploaded" ? (
+                    <i className="fas fa-cog fa-spin" />
+                  ) : (
+                    <i
+                      className={`fas ${
+                        submission.result.exitCode === 0
+                          ? "fa-check-circle"
+                          : "fa-times-circle"
+                      }`}
+                    />
+                  )}
+                  &nbsp;
+                  {submission.result &&
+                    submission.result.scenario &&
+                    [
+                      ...Array(submission.result.scenario.total).keys()
+                    ].map(id => <i key={id} className="far fa-star" />)}
+                  {` from ${submission.updatedAt} ${submission.id.slice(0, 6)}`}
                 </Button>
                 <Collapse
                   data-id={submission.id}
                   isOpen={isOpen === submission.id}
                 >
-                  {/* eslint-disable react/no-danger */}
+                  {submission.text && <div>{submission.text}</div>}
                   {submission.result && (
-                    <tt
-                      className="p-2"
-                      style={{
-                        display: "block",
-                        color: "#ffffff",
-                        background: "#131313",
-                        minWidth: "1000px"
-                      }}
-                      dangerouslySetInnerHTML={{
-                        __html: new Convert().toHtml(
-                          submission.result.output
-                            .replace(/ {1}/gm, "&nbsp")
-                            .replace(/(\r\n|\n)/gm, "<br />")
-                        )
-                      }}
-                    />
+                    <tt>{JSON.stringify(submission.result)}</tt>
                   )}
                   {submission.runs.map(run => (
                     <React.Fragment key={run.id}>
-                      {run.id}
+                      <div>{`Run ${run.id.slice(0, 6)}`}</div>
                       {/* eslint-disable react/no-danger */}
                       {run.result && (
                         <tt
