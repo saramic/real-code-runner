@@ -1,6 +1,7 @@
-import React, { useState } from "react";
-import { Router, Link } from "@reach/router";
+import React, { useState, useRef } from "react";
+import { Router, Link, navigate } from "@reach/router";
 import { Query } from "react-apollo";
+import { useMutation } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
 import Editor from "@monaco-editor/react";
 import ReactMarkdown from "react-markdown";
@@ -65,16 +66,29 @@ const GET_PAST_SUBMISSIONS = gql`
   }
 `;
 
+const ADD_SUBMISSION = gql`
+  mutation AddSubmission(
+    $challengeId: ID!
+    $externalUserIdentifier: String!
+    $text: String!
+  ) {
+    addSubmission(
+      challengeId: $challengeId
+      externalUserIdentifier: $externalUserIdentifier
+      text: $text
+    ) {
+      submission {
+        id
+      }
+    }
+  }
+`;
+
 const All = ({ data }) => (
   <>
     <h3>{`Challenge : ${data.challenge.title}`}</h3>
     <p>{data.challenge.description}</p>
-    {data.challenge.featureFileUrls.map(featureFile => (
-      <React.Fragment key={featureFile.filename}>
-        <h4>{featureFile.filename}</h4>
-        <pre>{featureFile.text}</pre>
-      </React.Fragment>
-    ))}
+    <ReactMarkdown source={data.challenge.metadata.readme} />
     {data.challenge.helperImageUrls.map(helperImageUrl => (
       <img
         width="100px"
@@ -98,13 +112,6 @@ const Feature = ({ data, featureId }) => {
   );
 };
 
-const Readme = ({ metadata }) => (
-  <>
-    <h4>README.md</h4>
-    <ReactMarkdown source={metadata.readme} />
-  </>
-);
-
 const SubmissionUrl = () => (
   <>
     <FormGroup>
@@ -115,15 +122,55 @@ const SubmissionUrl = () => (
   </>
 );
 
-const SubmissionText = () => {
+const SubmissionText = ({ challengeId }) => {
   const [submissionText] = useState("<html>\n</html>");
+  const [_isEditorReady, setIsEditorReady] = useState(false);
+  const valueGetter = useRef();
+
+  const [
+    addSubmission,
+    { loading: mutationLoading, error: mutationError }
+  ] = useMutation(ADD_SUBMISSION, {
+    onCompleted: ({
+      addSubmission: {
+        submission: { id }
+      }
+    }) => navigate(`../past_submissions?id=${id}`)
+  });
+
+  const handleEditorDidMount = _valueGetter => {
+    setIsEditorReady(true);
+    valueGetter.current = _valueGetter;
+  };
+
   return (
     <>
       <FormGroup>
         <Label>Text solution</Label>
-        <Editor height="40vh" language="ruby" value={submissionText} readOnly />
+        <Editor
+          height="40vh"
+          language="html"
+          value={submissionText}
+          editorDidMount={handleEditorDidMount}
+        />
       </FormGroup>
-      <Button color="primary">submit</Button>
+      <Button
+        color="primary"
+        onClick={event => {
+          event.preventDefault();
+          addSubmission({
+            variables: {
+              challengeId,
+              externalUserIdentifier: "demo_user",
+              text: valueGetter.current()
+            }
+          });
+        }}
+      >
+        submit
+      </Button>
+      {mutationLoading && <p>Loading...</p>}
+      {mutationError && <p>Error :( Please try again</p>}
     </>
   );
 };
@@ -220,54 +267,59 @@ const PastSubmissions = ({ challengeId }) => {
   );
 };
 
-const Submission = () => {
+// eslint-disable-next-line no-unused-vars
+const SubmissionSubNav = () => (
+  <Nav tabs>
+    <NavItem>
+      <NavLink
+        tag={Link}
+        to=""
+        getProps={({ isCurrent }) => {
+          return {
+            className: classnames({ "nav-link": true, active: isCurrent })
+          };
+        }}
+      >
+        Url
+      </NavLink>
+    </NavItem>
+    <NavItem>
+      <NavLink
+        tag={Link}
+        to="text"
+        getProps={({ isCurrent }) => {
+          return {
+            className: classnames({ "nav-link": true, active: isCurrent })
+          };
+        }}
+      >
+        Text
+      </NavLink>
+    </NavItem>
+    <NavItem>
+      <NavLink
+        tag={Link}
+        to="file"
+        getProps={({ isCurrent }) => {
+          return {
+            className: classnames({ "nav-link": true, active: isCurrent })
+          };
+        }}
+      >
+        File
+      </NavLink>
+    </NavItem>
+  </Nav>
+);
+
+const Submission = ({ challengeId }) => {
   return (
     <>
       <h4>Submission</h4>
-      <Nav tabs>
-        <NavItem>
-          <NavLink
-            tag={Link}
-            to=""
-            getProps={({ isCurrent }) => {
-              return {
-                className: classnames({ "nav-link": true, active: isCurrent })
-              };
-            }}
-          >
-            Url
-          </NavLink>
-        </NavItem>
-        <NavItem>
-          <NavLink
-            tag={Link}
-            to="text"
-            getProps={({ isCurrent }) => {
-              return {
-                className: classnames({ "nav-link": true, active: isCurrent })
-              };
-            }}
-          >
-            Text
-          </NavLink>
-        </NavItem>
-        <NavItem>
-          <NavLink
-            tag={Link}
-            to="file"
-            getProps={({ isCurrent }) => {
-              return {
-                className: classnames({ "nav-link": true, active: isCurrent })
-              };
-            }}
-          >
-            File
-          </NavLink>
-        </NavItem>
-      </Nav>
+      {/* <SubmissionSubNav /> */}
       <Router>
         <SubmissionUrl path="/" />
-        <SubmissionText path="text" />
+        <SubmissionText path="text" challengeId={challengeId} />
         <SubmissionFile path="file" />
       </Router>
     </>
@@ -294,19 +346,6 @@ const ChallengeNavigation = ({ data }) => {
           Challenge
         </NavLink>
       </NavItem>
-      <NavItem>
-        <NavLink
-          tag={Link}
-          to="readme"
-          getProps={({ isCurrent }) => {
-            return {
-              className: classnames({ "nav-link": true, active: isCurrent })
-            };
-          }}
-        >
-          Readme
-        </NavLink>
-      </NavItem>
       <Dropdown nav isOpen={dropdownOpen} toggle={toggle}>
         <DropdownToggle nav caret>
           Features
@@ -314,7 +353,9 @@ const ChallengeNavigation = ({ data }) => {
         <DropdownMenu>
           {data.challenge.features.map(feature => (
             <DropdownItem key={feature.title} header>
-              <Link to={`feature/${feature.title}`}>{feature.title}</Link>
+              <Link to={`feature/${feature.title}`} onClick={toggle}>
+                {feature.title}
+              </Link>
             </DropdownItem>
           ))}
         </DropdownMenu>
@@ -322,7 +363,7 @@ const ChallengeNavigation = ({ data }) => {
       <NavItem>
         <NavLink
           tag={Link}
-          to="submission"
+          to="submission/text"
           getProps={({ isCurrent }) => {
             return {
               className: classnames({ "nav-link": true, active: isCurrent })
@@ -361,11 +402,11 @@ export default function Challenge({ challengeId }) {
             <ChallengeNavigation data={data} />
             <Router>
               <All path="/" data={data} />
-              <Readme path="readme" metadata={data.challenge.metadata} />
               <Feature path="feature/:featureId" data={data} />
               <Submission
                 path="submission/*"
                 metadata={data.challenge.metadata}
+                challengeId={challengeId}
               />
               <PastSubmissions
                 path="past_submissions/*"

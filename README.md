@@ -141,8 +141,14 @@ _need to make CI run actual JS integration specs_
 - [ ] widgetized form need to get the host and port from the server and not
       from where they are displayed `window.location.pathname`
 - [ ] make submission runner more generic
-- [ ] update frontend to make use of metadata
-- [ ] decide NOT to store the run output in submission
+- [ ] fix frontend to actually allow submissions
+  - [ ] update frontend to make use of metadata
+  - [ ] decide NOT to store the run output in submission
+  - [ ] persist result on tab changes, maybe even save in between?
+  - [ ] show previous submission
+  - [ ] show status
+  - [ ] reload to see most up to date info
+  - [ ] nav between feature, submission and result
 - [ ] solution to support URL & token
 - [ ] solution to support zip file & runner command
 - [ ] log to file in shared dir between local and docker not to have to strip
@@ -158,6 +164,11 @@ _need to make CI run actual JS integration specs_
 **Bugs**
 
 - [ ] need a readme otherwise GraphQL query fails
+- [ ] links from markdown README in /demo go to the wrong place - either
+      redirect or somehow overwrite them in the raw README text or the
+      markdown parser?
+- [ ] delete_all on Submission still has problems with cascading deletes of
+      runs?
 
 **Tech**
 
