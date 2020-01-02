@@ -35,7 +35,7 @@ class Challenge < ApplicationRecord
   private
 
   def status_uploaded_if_new_test_case
-    self.status = :uploaded if test_case.new_record?
+    self.status = :uploaded if test_case.attachment && test_case.new_record?
   end
 
   def map_urls(attachments)
