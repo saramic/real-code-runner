@@ -1,8 +1,9 @@
 import React from "react";
-import { Router, Link } from "@reach/router";
+import { Router } from "@reach/router";
 import { Query } from "react-apollo";
 import { gql } from "apollo-boost";
-import Challenge from "./Challenge";
+import Challenges from "./Challenges/Challenges";
+import Challenge from "./Challenge/Challenge";
 
 const GET_CHALLENGES = gql`
   query Challenges {
@@ -13,20 +14,6 @@ const GET_CHALLENGES = gql`
     }
   }
 `;
-
-const Challenges = ({ data }) => (
-  <>
-    <h3>Challenges</h3>
-    {data.challenges.map(challenge => (
-      <div key={challenge.id}>
-        <h3>
-          <Link to={`/demo/challenge/${challenge.id}`}>{challenge.title}</Link>
-        </h3>
-        <p>{challenge.description}</p>
-      </div>
-    ))}
-  </>
-);
 
 export default function Demo() {
   return (

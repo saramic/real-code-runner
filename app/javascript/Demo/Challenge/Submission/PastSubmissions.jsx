@@ -1,0 +1,121 @@
+import React, { useState } from "react";
+import { gql } from "apollo-boost";
+import { Query } from "react-apollo";
+import { Button, Collapse } from "reactstrap";
+import Convert from "ansi-to-html";
+
+const GET_PAST_SUBMISSIONS = gql`
+  query Submissions($challengeId: ID!, $externalUserIdentifier: String!) {
+    submissions(
+      challengeId: $challengeId
+      externalUserIdentifier: $externalUserIdentifier
+    ) {
+      id
+      result {
+        output
+        exitCode
+        scenario {
+          total
+          output
+        }
+        step {
+          total
+          output
+        }
+      }
+      status
+      updatedAt
+      text
+      runs {
+        id
+        result {
+          output
+        }
+      }
+    }
+  }
+`;
+
+export default function PastSubmissions({ challengeId }) {
+  const [isOpen, setIsOpen] = useState();
+
+  const toggle = event => {
+    const submissionId = event.target.dataset.id;
+    setIsOpen(isOpen === submissionId ? null : submissionId);
+  };
+
+  return (
+    <Query
+      query={GET_PAST_SUBMISSIONS}
+      variables={{ challengeId, externalUserIdentifier: "demo_user" }}
+    >
+      {({ loading, error, data }) => {
+        if (loading) return "Loading ...";
+        if (error) return `Error! ${challengeId} ${error.message}`;
+
+        return (
+          <>
+            <h4>Past Submissions</h4>
+            {data.submissions.map(submission => (
+              <div key={submission.id}>
+                <Button data-id={submission.id} color="link" onClick={toggle}>
+                  {submission.status === "uploaded" ? (
+                    <i className="fas fa-cog fa-spin" />
+                  ) : (
+                    <i
+                      className={`fas ${
+                        submission.result.exitCode === 0
+                          ? "fa-check-circle"
+                          : "fa-times-circle"
+                      }`}
+                    />
+                  )}
+                  &nbsp;
+                  {submission.result &&
+                    submission.result.scenario &&
+                    [
+                      ...Array(submission.result.scenario.total).keys()
+                    ].map(id => <i key={id} className="far fa-star" />)}
+                  {` from ${submission.updatedAt} ${submission.id.slice(0, 6)}`}
+                </Button>
+                <Collapse
+                  data-id={submission.id}
+                  isOpen={isOpen === submission.id}
+                >
+                  {submission.text && <div>{submission.text}</div>}
+                  {submission.result && (
+                    <tt>{JSON.stringify(submission.result)}</tt>
+                  )}
+                  {submission.runs.map(run => (
+                    <React.Fragment key={run.id}>
+                      <div>{`Run ${run.id.slice(0, 6)}`}</div>
+                      {/* eslint-disable react/no-danger */}
+                      {run.result && (
+                        <tt
+                          className="p-2"
+                          style={{
+                            display: "block",
+                            color: "#ffffff",
+                            background: "#131313",
+                            minWidth: "1000px"
+                          }}
+                          dangerouslySetInnerHTML={{
+                            __html: new Convert().toHtml(
+                              run.result.output
+                                .replace(/ {1}/gm, "&nbsp")
+                                .replace(/(\r\n|\n)/gm, "<br />")
+                            )
+                          }}
+                        />
+                      )}
+                    </React.Fragment>
+                  ))}
+                </Collapse>
+              </div>
+            ))}
+          </>
+        );
+      }}
+    </Query>
+  );
+}
