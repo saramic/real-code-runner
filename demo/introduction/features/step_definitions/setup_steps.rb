@@ -7,10 +7,12 @@ Given("a static file") do
   # NOTE: cannot use class var for lambda below
   file_contents = File.read(entry_point)
 
-  MyRackWrapperApp = Rack::Builder.new do
-    run lambda { |_env|
-      [200, {}, [file_contents]]
-    }
+  unless defined? MyRackWrapperApp
+    MyRackWrapperApp = Rack::Builder.new do
+      run lambda { |_env|
+        [200, {}, [file_contents]]
+      }
+    end
   end
   Capybara.app = MyRackWrapperApp
   visit "/"

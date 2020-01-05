@@ -24,11 +24,24 @@ Then("the following elements with text") do |table|
     Hash[table.headers.zip(row)]
   end
   assertions.map do |assertion|
+    locator = if assertion.key?("tag")
+                assertion["tag"]
+              elsif assertion.key? "fragment"
+                "[data-testid=\"#{assertion['fragment']}\"]"
+              end
     wait_for do
-      page.find_all(assertion["tag"]).length
+      page.find_all(locator).length
     end.to eq 1
     wait_for do
-      page.find(assertion["tag"]).text
+      page.find(locator).text
     end.to eq assertion["text"]
+  end
+end
+
+Then("it has some pieces of text on the page") do |table|
+  table.rows.flatten.map do |text|
+    wait_for do
+      page.text
+    end.to include(text)
   end
 end

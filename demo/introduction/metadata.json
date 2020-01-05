@@ -1,16 +1,16 @@
 [
   {
     "uri": "features/feature_01_get_some_static_text_on_a_web_page.feature",
-    "id": "get-some-static-text-on-a-web-page",
+    "id": "get-started-with-web-app-testing-some-basic-html",
     "keyword": "Feature",
-    "name": "Get some static text on a web page",
+    "name": "Get started with web app testing some basic HTML",
     "description": "",
     "line": 1,
     "elements": [
       {
-        "id": "get-some-static-text-on-a-web-page;generate-a-static-web-page-with-a-`h1`-and-a-`p`-tag",
+        "id": "get-started-with-web-app-testing-some-basic-html;get-some-text-on-a-page",
         "keyword": "Scenario",
-        "name": "Generate a static web page with a `h1` and a `p` tag",
+        "name": "Get some text on a page",
         "description": "",
         "line": 3,
         "type": "scenario",
@@ -26,11 +26,48 @@
           },
           {
             "keyword": "Then ",
-            "name": "it has a \"h1\" with the text \"Welcome to Real Code Problems\"",
+            "name": "it has some pieces of text on the page",
             "line": 6,
-            "helper_imags": [
-              "helper_images/feature_01_heading.png"
+            "rows": [
+              {
+                "cells": ["text"]
+              },
+              {
+                "cells": ["Welcome to Real Code Problems"]
+              },
+              {
+                "cells": [
+                  "Real code problems help you learn how to code while solving real problems."
+                ]
+              }
             ],
+            "helper_imags": [],
+            "hints": []
+          }
+        ]
+      },
+      {
+        "id": "get-started-with-web-app-testing-some-basic-html;put-the-text-in-appropriate-tags-`h1`-and-a-`p`-tag",
+        "keyword": "Scenario",
+        "name": "Put the text in appropriate tags `h1` and a `p` tag",
+        "description": "",
+        "line": 11,
+        "type": "scenario",
+        "steps": [
+          {
+            "keyword": "Given ",
+            "name": "a static file",
+            "line": 12,
+            "helper_imags": [],
+            "hints": [
+              "pass a static fail via the \"ENTRY_POINT\" environment variable as in\n\nENTRY_POINT=path/to/my/file docker-compose up"
+            ]
+          },
+          {
+            "keyword": "Then ",
+            "name": "it has a \"h1\" with the text \"Welcome to Real Code Problems\"",
+            "line": 14,
+            "helper_imags": ["helper_images/feature_01_heading.png"],
             "hints": [
               "need a \"h1\" html tag as in\n\n<h1>Welcome to Real Code Problems</h1>"
             ]
@@ -38,7 +75,21 @@
           {
             "keyword": "And ",
             "name": "the following elements with text",
-            "line": 7,
+            "line": 15,
+            "rows": [
+              {
+                "cells": ["tag", "text"]
+              },
+              {
+                "cells": ["h1", "Welcome to Real Code Problems"]
+              },
+              {
+                "cells": [
+                  "p",
+                  "Real code problems help you learn how to code while solving real problems."
+                ]
+              }
+            ],
             "helper_imags": [
               "helper_images/feature_01_heading.png",
               "helper_images/feature_01_paragraph.png"
@@ -47,6 +98,63 @@
               "need a \"h1\" html tag as in\n\n<h1>Welcome to Real Code Problems</h1>",
               "need a \"p\" html tag as in\n\n<p>Real code problems help you learn how to code while solving real problems.</p>"
             ]
+          }
+        ]
+      },
+      {
+        "id": "get-started-with-web-app-testing-some-basic-html;scope-text-behind-page-fragmets-identified-by-data-testid's",
+        "keyword": "Scenario",
+        "name": "Scope text behind page fragmets identified by data-testid's",
+        "description": "",
+        "line": 20,
+        "type": "scenario",
+        "steps": [
+          {
+            "keyword": "Given ",
+            "name": "a static file",
+            "line": 21,
+            "helper_imags": [],
+            "hints": [
+              "pass a static fail via the \"ENTRY_POINT\" environment variable as in\n\nENTRY_POINT=path/to/my/file docker-compose up"
+            ]
+          },
+          {
+            "keyword": "Then ",
+            "name": "it has a \"h1\" with the text \"Welcome to Real Code Problems\"",
+            "line": 23
+          },
+          {
+            "keyword": "And ",
+            "name": "the following elements with text",
+            "line": 24,
+            "rows": [
+              {
+                "cells": ["fragment", "text"]
+              },
+              {
+                "cells": ["heading", "Welcome to Real Code Problems"]
+              },
+              {
+                "cells": [
+                  "sub-heading",
+                  "Real code problems help you learn how to code while solving real problems."
+                ]
+              },
+              {
+                "cells": [
+                  "quote-1",
+                  "Real code problems are problems solved with web apps."
+                ]
+              },
+              {
+                "cells": [
+                  "quote-2",
+                  "Real code problems will help you build out BDD phrasing of problems."
+                ]
+              }
+            ],
+            "helper_imags": [],
+            "hints": []
           }
         ]
       }
