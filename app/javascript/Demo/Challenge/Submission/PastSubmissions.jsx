@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { gql } from "apollo-boost";
 import { Query } from "react-apollo";
-import { Button, Collapse } from "reactstrap";
+import { Badge, Button, Collapse } from "reactstrap";
 import Convert from "ansi-to-html";
 
 const GET_PAST_SUBMISSIONS = gql`
@@ -36,6 +36,38 @@ const GET_PAST_SUBMISSIONS = gql`
   }
 `;
 
+const StatusBadge = ({ text }) => {
+  let args = {};
+
+  switch (text) {
+    case "success":
+      args = { color: "success", text: "success", icon: "fa-check-circle" };
+      break;
+    case "processing":
+      args = { color: "primary", text: "processing", icon: "fa-cog fa-spin" };
+      break;
+    default:
+      args = { color: "danger", text: "failed", icon: "fa-times-circle" };
+      break;
+  }
+
+  return (
+    <Badge
+      className="p-1"
+      color={args.color}
+      pill
+      style={{
+        textTransform: "uppercase",
+        minWidth: "100px",
+        textAlign: "left"
+      }}
+    >
+      <i className={`fas ${args.icon}`} />
+      {` ${args.text}`}
+    </Badge>
+  );
+};
+
 export default function PastSubmissions({ challengeId }) {
   const [isOpen, setIsOpen] = useState();
 
@@ -59,16 +91,14 @@ export default function PastSubmissions({ challengeId }) {
             {data.submissions.map(submission => (
               <div key={submission.id}>
                 <Button data-id={submission.id} color="link" onClick={toggle}>
-                  {submission.status === "uploaded" ? (
-                    <i className="fas fa-cog fa-spin" />
-                  ) : (
-                    <i
-                      className={`fas ${
-                        submission.result.exitCode === 0
-                          ? "fa-check-circle"
-                          : "fa-times-circle"
-                      }`}
-                    />
+                  {submission.status === "uploaded" && (
+                    <StatusBadge text="processing" />
+                  )}
+                  {submission.result.exitCode === 0 && (
+                    <StatusBadge text="success" />
+                  )}
+                  {submission.result.exitCode !== 0 && (
+                    <StatusBadge text="failed" />
                   )}
                   &nbsp;
                   {submission.result &&
