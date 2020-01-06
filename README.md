@@ -37,8 +37,6 @@ Now you should be able to view the challenge and submission
 
 - http://localhost:3000/admin - to manage users, challenges and view
   submissions and runs
-- http://localhost:3000/demo - a demo of what the frontend for submitting
-  submissions might look like
 - http://localhost:3000/prototype - for external users to use runner as API
 
 ---
@@ -82,7 +80,6 @@ make deploy
 ### Heroku staging
 
 - https://stg-real-code-runner.herokuapp.com/admin
-- https://stg-real-code-runner.herokuapp.com/demo
 - https://stg-real-code-runner.herokuapp.com/prototype
 
 **Handy Heroku commands**
