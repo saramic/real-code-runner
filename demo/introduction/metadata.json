@@ -19,7 +19,7 @@
             "keyword": "Given ",
             "name": "a static file",
             "line": 4,
-            "helper_imags": [],
+            "helper_images": [],
             "hints": [
               "pass a static fail via the \"ENTRY_POINT\" environment variable as in\n\nENTRY_POINT=path/to/my/file docker-compose up"
             ]
@@ -41,7 +41,7 @@
                 ]
               }
             ],
-            "helper_imags": [],
+            "helper_images": [],
             "hints": []
           }
         ]
@@ -58,7 +58,7 @@
             "keyword": "Given ",
             "name": "a static file",
             "line": 12,
-            "helper_imags": [],
+            "helper_images": [],
             "hints": [
               "pass a static fail via the \"ENTRY_POINT\" environment variable as in\n\nENTRY_POINT=path/to/my/file docker-compose up"
             ]
@@ -67,7 +67,7 @@
             "keyword": "Then ",
             "name": "it has a \"h1\" with the text \"Welcome to Real Code Problems\"",
             "line": 14,
-            "helper_imags": ["helper_images/feature_01_heading.png"],
+            "helper_images": ["helper_images/feature_01_heading.png"],
             "hints": [
               "need a \"h1\" html tag as in\n\n<h1>Welcome to Real Code Problems</h1>"
             ]
@@ -90,7 +90,7 @@
                 ]
               }
             ],
-            "helper_imags": [
+            "helper_images": [
               "helper_images/feature_01_heading.png",
               "helper_images/feature_01_paragraph.png"
             ],
@@ -113,7 +113,7 @@
             "keyword": "Given ",
             "name": "a static file",
             "line": 21,
-            "helper_imags": [],
+            "helper_images": [],
             "hints": [
               "pass a static fail via the \"ENTRY_POINT\" environment variable as in\n\nENTRY_POINT=path/to/my/file docker-compose up"
             ]
@@ -153,7 +153,7 @@
                 ]
               }
             ],
-            "helper_imags": [],
+            "helper_images": [],
             "hints": []
           }
         ]

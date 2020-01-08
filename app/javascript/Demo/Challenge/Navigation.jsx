@@ -30,6 +30,19 @@ export default function Navigation({ data }) {
           Challenge
         </NavLink>
       </NavItem>
+      <NavItem>
+        <NavLink
+          tag={Link}
+          to="metadata"
+          getProps={({ isCurrent }) => {
+            return {
+              className: classnames({ "nav-link": true, active: isCurrent })
+            };
+          }}
+        >
+          Metadata
+        </NavLink>
+      </NavItem>
       <Dropdown nav isOpen={dropdownOpen} toggle={toggle}>
         <DropdownToggle nav caret>
           Features

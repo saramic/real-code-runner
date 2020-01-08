@@ -7,6 +7,7 @@ import Submission from "./Submission/Submission";
 import PastSubmissions from "./Submission/PastSubmissions";
 import All from "./All";
 import Feature from "./Feature";
+import Metadata from "./Metadata";
 
 const GET_CHALLENGE = gql`
   query Challenge($id: ID!) {
@@ -15,6 +16,28 @@ const GET_CHALLENGE = gql`
       description
       metadata {
         readme
+        metadata {
+          id
+          uri
+          line
+          name
+          keyword
+          description
+          elements {
+            id
+            line
+            name
+            keyword
+            description
+            steps {
+              line
+              name
+              keyword
+              hints
+              helperImages
+            }
+          }
+        }
       }
       features {
         title
@@ -44,6 +67,7 @@ export default function Challenge({ challengeId }) {
             <Navigation data={data} />
             <Router>
               <All path="/" data={data} />
+              <Metadata path="/metadata" data={data} />
               <Feature path="feature/:featureId" data={data} />
               <Submission
                 path="submission/*"
