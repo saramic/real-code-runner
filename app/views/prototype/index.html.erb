@@ -28,7 +28,7 @@
     })
     .then(response => response.json())
     .then(responseJson => {
-      resultElement.innerHTML = JSON.stringify(responseJson, null, 2);
+      resultElement.innerHTML = JSON.stringify(responseJson, null, 2).replace(/</g, "&lt;").replace(/>/g, "&gt;");
     });
   }
 </script>
@@ -284,6 +284,28 @@
             description
             metadata {
               readme
+              metadata {
+                id
+                uri
+                line
+                name
+                keyword
+                description
+                elements {
+                  id
+                  line
+                  name
+                  keyword
+                  description
+                  steps {
+                    line
+                    name
+                    keyword
+                    hints
+                    helperImages
+                  }
+                }
+              }
             }
             features {
               title
@@ -296,7 +318,7 @@
             helperImageUrls {
               filename
               url
-           }
+            }
           }
         }`
       }
@@ -363,6 +385,28 @@
           description
           metadata {
             readme
+            metadata {
+              id
+              uri
+              line
+              name
+              keyword
+              description
+              elements {
+                id
+                line
+                name
+                keyword
+                description
+                steps {
+                  line
+                  name
+                  keyword
+                  hints
+                  helperImages
+                }
+              }
+            }
           }
           features {
             title
