@@ -26,6 +26,6 @@ const render = node => {
 
 Array.from(
   document.querySelectorAll('[data-widget-type|="rcp"]').forEach(node => {
-    render(node);
+    if (node.innerHTML === "") render(node);
   })
 );

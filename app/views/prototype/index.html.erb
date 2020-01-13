@@ -4,6 +4,7 @@
 
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+  <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 <% end %>
 
 <div class="container">
@@ -41,6 +42,11 @@
         <a href="#uploading-a-challenge" data-turbolinks=false>
           Uploading a challenge
         </a>
+        -
+        (<a href="prototype/uploading-a-challenge" data-turbolinks=false>
+          <i class="fa fa-object-ungroup"></i>
+           separate page
+        </a>)
       </li>
       <li>
         <a href="#listing-challenges" data-turbolinks=false>
@@ -73,18 +79,7 @@
 
   <div data-widget-type="rcp-UploadChallenge" data-token="<%= @jwt %>"></div>
 
-  <script type="text/javascript">
-    const me = document.currentScript;
-    const host = "<%= URI(request.protocol + request.host_with_port) %>";
-    fetch(`${host}/packs/manifest.json`)
-      .then(response => response.json())
-      .then(responseJson => {
-        const widget = document.createElement("SCRIPT");
-        widget.type = "text/javascript";
-        widget.src = `${host}${responseJson["widget_app.js"]}`;
-        me.parentElement.appendChild(widget);
-      });
-  </script>
+  <script type="text/javascript" src="/application.js"></script>
 
   <div id="accordion" class="mt-3">
     <div class="card">
@@ -100,20 +95,9 @@
           <pre>
 <%=
 '
-<div class="rcp-upload-challenge-widget" data-token=""></div>
+<div class="rcp-upload-challenge-widget" data-token="' + @jwt + '"></div>
 
-<script type="text/javascript">
-  const me = document.currentScript;
-  const host = "' + URI(request.protocol + request.host_with_port).to_s + '";
-  fetch(`${host}/packs/manifest.json`)
-    .then(response => response.json())
-    .then(responseJson => {
-      const widget = document.createElement("SCRIPT");
-      widget.type = "text/javascript";
-      widget.src = responseJson["widget_app.js"];
-      me.parentElement.appendChild(widget);
-    });
-</script>
+<script type="text/javascript" src="/application.js"></script>
 '
 %>
           </pre>
@@ -469,18 +453,8 @@
 
   <div data-widget-type="rcp-UploadSubmission" data-token="<%= @jwt %>"></div>
 
-  <script type="text/javascript">
-    const me = document.currentScript;
-    const host = "<%= URI(request.protocol + request.host_with_port) %>";
-    fetch(`${host}/packs/manifest.json`)
-      .then(response => response.json())
-      .then(responseJson => {
-        const widget = document.createElement("SCRIPT");
-        widget.type = "text/javascript";
-        widget.src = responseJson["widget_app.js"];
-        me.parentElement.appendChild(widget);
-      });
-  </script>
+  <script type="text/javascript" src="/application.js"></script>
+
   <div id="accordion" class="mt-3">
     <div class="card">
       <div class="card-header" id="headingTwo">
@@ -497,18 +471,7 @@
 '
 <div data-widget-type="rcp-UploadSubmission" data-token="' + @jwt + '"></div>
 
-<script type="text/javascript">
-  const me = document.currentScript;
-  const host = "' + URI(request.protocol + request.host_with_port).to_s + '";
-  fetch(`${host}/packs/manifest.json`)
-    .then(response => response.json())
-    .then(responseJson => {
-      const widget = document.createElement("SCRIPT");
-      widget.type = "text/javascript";
-      widget.src = responseJson["widget_app.js"];
-      me.parentElement.appendChild(widget);
-    });
-</script>
+<script type="text/javascript" src="/application.js"></script>
 '
 %>
           </pre>

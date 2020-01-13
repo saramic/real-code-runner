@@ -9,7 +9,9 @@ Rails.application.routes.draw do
   resources :challenges, only: %i[show create], defaults: { format: :json }
   resources :submissions, only: %i[show create], defaults: { format: :json }
 
-  resources :prototype, only: :index
+  get "/application" => "scripts#index"
+
+  resources :prototype, only: %i[index show]
 
   resources :demo, only: :index
   get "/demo/*all" => "demo#index"
