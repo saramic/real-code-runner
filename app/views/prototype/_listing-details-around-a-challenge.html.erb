@@ -68,6 +68,16 @@
 
   <form>
     <div class="form-group">
+      <label>Auth token</label>
+      <input
+        id="auth-token"
+        type="text"
+        class="form-control"
+        placeholder="auth token from /admin/users"
+        value="<%= @jwt %>"
+        />
+    </div>
+    <div class="form-group">
       <label>Challenge ID</label>
       <input
         id="challenge-id"
