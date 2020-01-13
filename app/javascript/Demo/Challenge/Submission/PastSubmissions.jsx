@@ -94,10 +94,10 @@ export default function PastSubmissions({ challengeId }) {
                   {submission.status === "uploaded" && (
                     <StatusBadge text="processing" />
                   )}
-                  {submission.result.exitCode === 0 && (
+                  {submission.result && submission.result.exitCode === 0 && (
                     <StatusBadge text="success" />
                   )}
-                  {submission.result.exitCode !== 0 && (
+                  {submission.result && submission.result.exitCode !== 0 && (
                     <StatusBadge text="failed" />
                   )}
                   &nbsp;
