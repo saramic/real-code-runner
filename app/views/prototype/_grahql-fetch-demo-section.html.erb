@@ -1,0 +1,73 @@
+<section>
+  <h3><a name="graphql-fetch-demo">GraphQL Fetch Demo</a></h3>
+
+  <p>As used by GraphQL queries below.</p>
+  <script type="text/javascript">
+    function fetchGraphql(authToken, body, resultElement) {
+      fetch(
+        "<%= URI(request.protocol + request.host_with_port) + "/graphql" %>", {
+          headers: {
+            "CONTENT-TYPE": "application/json",
+            "AUTHORIZATION": `Token ${authToken}`,
+          },
+          body: JSON.stringify(body),
+          method: "POST",
+        }).then(response => {
+        if (response.ok) {
+          return response;
+        } else {
+          throw new Error(`Request rejected with status ${response.status}`);
+        }
+      })
+        .then(response => response.json())
+        .then(responseJson => {
+          resultElement.innerHTML = JSON.stringify(responseJson, null, 2).replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        });
+    }
+  </script>
+
+  <div id="accordion" class="mt-3">
+    <div class="card">
+      <div class="card-header" id="headingTwo">
+        <h5 class="mb-0">
+          <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseGraphqlFetch" aria-expanded="false" aria-controls="collapseTwo">
+            Code Sample - javascript widget
+          </button>
+        </h5>
+      </div>
+      <div id="collapseGraphqlFetch" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+        <div class="card-body">
+          <pre>
+<%=
+  '
+<script type="text/javascript">
+  function fetchGraphql(authToken, body, resultElement) {
+    fetch(
+      "' + URI(request.protocol + request.host_with_port).to_s + '"/graphql", {
+      headers: {
+        "CONTENT-TYPE": "application/json",
+        "AUTHORIZATION": `Token ${authToken}`,
+      },
+      body: JSON.stringify(body),
+      method: "POST",
+    }).then(response => {
+      if (response.ok) {
+        return response;
+      } else {
+        throw new Error(`Request rejected with status ${response.status}`);
+      }
+    })
+    .then(response => response.json())
+    .then(responseJson => {
+      resultElement.innerHTML = JSON.stringify(responseJson, null, 2).replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    });
+  }
+</script>
+'
+%>
+          </pre>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
