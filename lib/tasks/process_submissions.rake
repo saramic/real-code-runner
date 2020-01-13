@@ -48,7 +48,7 @@ namespace :process do
           run.result["output"] = `#{command}`
           run.save!
           color_free_output = run.result["output"].gsub(/\x1b\[[0-9;]*m/, "")
-          scenario_matches = /(\d+) scenario \((.*)\)$/.match(color_free_output)
+          scenario_matches = /(\d+) scenarios? \((.*)\)$/.match(color_free_output)
           step_matches = /(\d+) steps \((.*)\)$/.match(color_free_output)
           submission.update!(
             status: "processed",
