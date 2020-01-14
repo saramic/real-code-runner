@@ -16,12 +16,21 @@ const GET_PAST_SUBMISSIONS = gql`
         exitCode
         scenario {
           total
+          failed
+          skipped
+          pending
+          passed
           output
         }
         step {
           total
+          failed
+          skipped
+          pending
+          passed
           output
         }
+        elapsedTime
       }
       status
       updatedAt

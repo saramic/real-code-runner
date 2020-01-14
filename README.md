@@ -167,6 +167,8 @@ _need to make CI run actual JS integration specs_
       markdown parser?
 - [ ] delete_all on Submission still has problems with cascading deletes of
       runs?
+- [ ] do multiple runs make sense? also what is the order of them, no link in
+      the submission to which run's results are being displayed
 
 **Tech**
 
