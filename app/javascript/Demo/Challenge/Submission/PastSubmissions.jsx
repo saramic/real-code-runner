@@ -77,6 +77,17 @@ const StatusBadge = ({ text }) => {
   );
 };
 
+const Stars = ({ scenario }) => {
+  return [
+    [...Array(scenario.passed).keys()].map(id => (
+      <i key={id} className="fas fa-star" />
+    )),
+    [...Array(scenario.total - scenario.passed).keys()].map(id => (
+      <i key={id} className="far fa-star" />
+    ))
+  ];
+};
+
 export default function PastSubmissions({ challengeId }) {
   const [isOpen, setIsOpen] = useState();
 
@@ -110,12 +121,15 @@ export default function PastSubmissions({ challengeId }) {
                     <StatusBadge text="failed" />
                   )}
                   &nbsp;
-                  {submission.result &&
-                    submission.result.scenario &&
-                    [
-                      ...Array(submission.result.scenario.total).keys()
-                    ].map(id => <i key={id} className="far fa-star" />)}
-                  {` from ${submission.updatedAt} ${submission.id.slice(0, 6)}`}
+                  {submission.result && (
+                    <Stars scenario={submission.result.scenario} />
+                  )}
+                  &nbsp;
+                  {submission.result && `in ${submission.result.elapsedTime}`}
+                  &nbsp;
+                  {`at ${submission.updatedAt}`}
+                  &nbsp;
+                  {`id ${submission.id.slice(0, 6)}`}
                 </Button>
                 <Collapse
                   data-id={submission.id}
