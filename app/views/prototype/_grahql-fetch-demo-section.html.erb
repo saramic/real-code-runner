@@ -43,7 +43,7 @@
 <script type="text/javascript">
   function fetchGraphql(authToken, body, resultElement) {
     fetch(
-      "' + URI(request.protocol + request.host_with_port).to_s + '"/graphql", {
+      "' + URI(request.protocol + request.host_with_port).to_s + '/graphql", {
       headers: {
         "CONTENT-TYPE": "application/json",
         "AUTHORIZATION": `Token ${authToken}`,

@@ -58,7 +58,7 @@
       const challengeId = document.getElementById("challenge-id").value;
       const body = fetchChallengeBody(challengeId);
       const preElement = document.getElementById("challenge-call-result");
-      preElement.innerHTML = '...'
+      preElement.innerHTML = "...";
 
       fetchGraphql(authToken, body, preElement);
 
@@ -169,7 +169,7 @@
     const challengeId = document.getElementById("challenge-id").value;
     const body = fetchChallengeBody(challengeId);
     const preElement = document.getElementById("challenge-call-result");
-    preElement.innerHTML = '...'
+    preElement.innerHTML = "...";
 
     fetchGraphql(authToken, body, preElement);
 
@@ -180,11 +180,17 @@
 <form>
   <div>
     <input
+      id="auth-token"
+      type="text"
+      value="' + @jwt + '"
+      />
+  </div>
+  <div class="form-group">
+    <input
       id="challenge-id"
       type="text"
-      placeholder="challenge id"
-      value="c8d40015-d6f4-43d0-b4b4-7d4dff795596"
-    />
+      value="' + @challenge_id + '"
+      />
   </div>
   <div>
     <button onClick="fetchChallenge(event)">
@@ -192,6 +198,10 @@
     </button>
   </div>
 </form>
+<div>
+  <strong>Result</strong>
+  <pre id="challenge-call-result">...</pre>
+</div>
 '
 %>
           </pre>
