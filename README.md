@@ -87,8 +87,7 @@ rm config/credentials.yml.enc
 EDITOR=VI bin/rails credentials:edit
 
 # start server
-# use -p 3030 to run on a different port - note some of the widgets below are
-# hard coded to use port 3000 in development at the moment
+# use -p 3030 to run on a different port
 bin/rails s
 
 # create a challenge

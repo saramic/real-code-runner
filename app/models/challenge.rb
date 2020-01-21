@@ -56,6 +56,10 @@ class Challenge < ApplicationRecord
   end
 
   def host
-    Rails.env.production? ? "https://stg-real-code-runner.herokuapp.com" : "http://localhost:3000"
+    if Rails.env.production?
+      "https://stg-real-code-runner.herokuapp.com"
+    else
+      "http://localhost:#{Rails::Server::Options.new.parse!(ARGV)[:Port]}"
+    end
   end
 end
