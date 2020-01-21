@@ -24,6 +24,10 @@ class Challenge < ApplicationRecord
     end
   end
 
+  def test_case_url
+    Rails.application.routes.url_helpers.rails_blob_url(test_case, host: host)
+  end
+
   def feature_file_urls
     map_urls(feature_files)
   end

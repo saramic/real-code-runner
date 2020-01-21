@@ -4,6 +4,7 @@ module Types
     field :title, String, null: false
     field :description, String, null: true
     field :status, String, null: true
+    field :test_case_url, String, null: true
     field :metadata, Types::ChallengeMetadata, null: true
     field :features, [Types::Feature], null: true
     field :feature_file_urls, [Types::Url], null: true
