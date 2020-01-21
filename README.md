@@ -39,6 +39,80 @@ Now you should be able to view the challenge and submission
   submissions and runs
 - http://localhost:3000/prototype - for external users to use runner as API
 
+### Long form setup
+
+_should try and run through this again to make sure it makes sense._
+
+```bash
+# get repo
+git clone git@github.com:saramic/real-code-runner.git
+cd real-code-runner/
+
+# run make to see some of the options
+make
+
+# install asdf
+make install_tools
+# probably need the following in appropriate ~/.profile file like ~/.bash_profile
+. $HOME/.asdf/asdf.sh
+. $HOME/.asdf/completions/asdf.bash
+
+# create a zip of introduction challenge under demo/introduction
+make zip_demo
+ls demo/challenge-introduction.zip
+
+# assuming you have docker running make sure you have a build of the docker
+# required to run demo/introduction
+cd demo/introduction
+docker-compose build
+# and test it
+# failing
+ENTRY_POINT=solutions/index_1.html docker-compose up
+# 2 out of 3
+ENTRY_POINT=solutions/index_5.html docker-compose up
+# all passing
+ENTRY_POINT=solutions/index_6.html docker-compose up
+cd ../../
+
+# setup rails server
+
+# create db
+# in root directory of project real-code-runner
+bin/rails db:create
+bin/rake setup:admin_user[user@gmail.com] # with password password
+
+# reset credentials by removing existing
+rm config/credentials.yml.enc
+# and create a new one accepting the defaults and saving
+EDITOR=VI bin/rails credentials:edit
+
+# start server
+# use -p 3030 to run on a different port - note some of the widgets below are
+# hard coded to use port 3000 in development at the moment
+bin/rails s
+
+# create a challenge
+# go to admin and login using user@gmail.com/password
+http://localhost:30-0/admin
+# create a challenge named "Introduction" and
+# upload the challenge-introduction.zip created earlier
+# process the challenge
+bin/rake process:challenges
+
+# checkout that prototype works
+http://localhost:3000/prototype
+
+# upload a submission
+http://localhost:3000/prototype/uploading-a-submission
+# cut and paste the basic form example into a file and open that file in a browser
+# upload a solution eg cat demo/introduction/solutions/index_5.html
+# process the submission
+bin/rake process:submissions
+
+# see past submission
+http://localhost:3030/prototype/listing-past-submissions
+```
+
 ---
 
 ### Admin priveledges for a user
