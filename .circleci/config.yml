@@ -8,7 +8,7 @@ jobs:
           PGHOST: localhost
           PGUSER: your-app-name
           RAILS_ENV: test
-      - image: postgres:9.5
+      - image: circleci/postgres:latest
         environment:
           POSTGRES_USER: your-app-name
           POSTGRES_DB: your-app-name_test
@@ -17,7 +17,7 @@ jobs:
       - checkout
 
       - run:
-          name: 'Update Node.js'
+          name: "Update Node.js"
           command: |
             curl -sSL "https://nodejs.org/dist/v10.15.3/node-v10.15.3-linux-x64.tar.xz" | sudo tar --strip-components=2 -xJ -C /usr/local/bin/ node-v10.15.3-linux-x64/bin/node
             curl https://www.npmjs.com/install.sh | sudo bash
@@ -76,6 +76,4 @@ jobs:
       # - run: yarn test
 
       - run: bundle exec rspec
- 
       #- run: bundle exec cucumber spec/features
-
