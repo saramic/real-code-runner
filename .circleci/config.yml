@@ -3,7 +3,7 @@ jobs:
   build:
     working_directory: ~/real-code-runner
     docker:
-      - image: circleci/ruby:2.6.4-stretch-node
+      - image: circleci/ruby:2.6.4-stretch-node-browsers
         environment:
           PGHOST: localhost
           PGUSER: your-app-name
@@ -68,8 +68,7 @@ jobs:
       - run: bundle exec rake db:setup
 
       # Pre test
-
-      # - run: yarn lint
+      - run: yarn lint
 
       - run: bundle exec rubocop --config .rubocop.yml
 
@@ -77,4 +76,5 @@ jobs:
       # - run: yarn test
 
       - run: bundle exec rspec
-      #- run: bundle exec cucumber spec/features
+
+      - run: bundle exec cucumber spec/features
