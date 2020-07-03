@@ -77,4 +77,4 @@ jobs:
 
       - run: bundle exec rspec
 
-      - run: bundle exec cucumber spec/features
+      - run: bundle exec cucumber features
