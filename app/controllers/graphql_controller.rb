@@ -11,7 +11,6 @@ class GraphqlController < ApplicationController
 
   respond_to :json
 
-  # rubocop:disable Metrics/AbcSize
   # rubocop:disable Metrics/MethodLength
   def execute
     variables = ensure_hash(params[:variables])
@@ -34,7 +33,6 @@ class GraphqlController < ApplicationController
     handle_error_in_development e
   end
 
-  # rubocop:enable Metrics/AbcSize
   # rubocop:enable Metrics/MethodLength
 
   private

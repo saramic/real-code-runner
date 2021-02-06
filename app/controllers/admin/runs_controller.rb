@@ -33,9 +33,7 @@ module Admin
     # for more information
 
     def scoped_resource
-      unless current_user.user_actions&.dig("admin", "can_administer")
-        return super.none
-      end
+      return super.none unless current_user.user_actions&.dig("admin", "can_administer")
 
       super.all
     end

@@ -11,7 +11,7 @@ module PageFragments
         nodes = browser.find_all("p strong")
         full = nodes.map { |strong| strong.find(:xpath, "..") }.map(&:text)
         title = nodes.map(&:text)
-        Hash[title.zip(full).map { |(k, v)| [k, v.sub(k + " ", "")] }]
+        Hash[title.zip(full).map { |(k, v)| [k, v.sub("#{k} ", "")] }]
       end
     end
 

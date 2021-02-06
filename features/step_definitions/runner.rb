@@ -28,7 +28,7 @@ Given("{string} signs up and is anointed with") do |name, table|
     .fill_in(with: "password")
   focus_on(:util).form_action("Sign up")
   @user = User.find_by(email: "#{name.downcase}@example.com")
-  @user.update!(Hash[table.rows_hash.map { |k, v| [k, JSON.parse(v)] }])
+  @user.update!(table.rows_hash.transform_values { |v| JSON.parse(v) })
 
   # TODO: wait for JS to load for administrate or use
   # `page.execute_script` to look for an event like `turbolinks:load`

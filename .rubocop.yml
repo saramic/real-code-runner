@@ -1,4 +1,5 @@
 AllCops:
+  NewCops: enable
   Exclude:
     - node_modules/**/*
     - vendor/**/*
@@ -39,3 +40,4 @@ Style/TrailingCommaInArguments:
 
 Style/StringLiterals:
   EnforcedStyle: double_quotes
+
