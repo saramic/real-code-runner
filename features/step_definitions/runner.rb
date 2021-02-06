@@ -72,7 +72,7 @@ When("{string} uploads a challenge") do |_string, table|
 end
 
 Then("{string} gets message {string}") do |_name, message|
-  wait_for { page.find(".flash.flash-notice").text }.to eq message + "!!"
+  wait_for { page.find(".flash.flash-notice").text }.to eq message
 end
 
 When("{string} uploads a submission to {string}") do |_user, _challenge, table|
